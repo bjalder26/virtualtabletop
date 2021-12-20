@@ -114,7 +114,7 @@ var oDoc, sDefTxt;
 function initRichtextEditor() {
   oDoc = document.getElementById("richtextText");
   sDefTxt = oDoc.innerHTML;
-  if (document.compForm.switchMode.checked) { setDocMode(true); }
+  if (document.getElementById("switchBox").checked) { setDocMode(true); }
 }
 
 function formatDoc(sCmd, sValue) {
@@ -122,7 +122,7 @@ function formatDoc(sCmd, sValue) {
 }
 
 function validateMode() {
-  if (!document.compForm.switchMode.checked) { return true ; }
+  if (!document.getElementById("switchBox").checked) { return true ; }
   alert("Uncheck \"Show HTML\".");
   oDoc.focus();
   return false;
