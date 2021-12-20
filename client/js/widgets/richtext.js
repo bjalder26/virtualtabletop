@@ -10,7 +10,9 @@ export class Richtext extends Widget {
       movable: false,
       layer: -2,
       typeClasses: 'widget richtext',
-
+      
+      backgroundColor: null,
+      borderColor: null,
       text: ''
     });
 
@@ -89,5 +91,20 @@ export class Richtext extends Widget {
             
       this.input.innerHTML = richtext;
     }
+  }
+  
+  css() {
+    let css = super.css();
+    if(this.get('backgroundColor'))
+      css += '; --wcMain:' + this.get('backgroundColor');
+    if(this.get('borderColor'))
+      css += '; --wcBorder:' + this.get('borderColor');
+    return css;
+  }
+  
+  cssProperties() {
+    const p = super.cssProperties();
+    p.push('backgroundColor', 'borderColor');
+    return p;
   }
 }
