@@ -1,3 +1,5 @@
 .richtext {
   display: inline-block;
+  background-color: var(--editColor) !important;
+  overflow: auto;
 }
