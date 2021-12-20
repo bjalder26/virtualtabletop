@@ -21,9 +21,6 @@ export class Richtext extends Widget {
     super.applyDeltaToDOM(delta);
     if(delta.text !== undefined) {
       var richtext = this.get('text').toString()
-      // this is where all the replaces would go
-      .replace(/&lt;/gmi, '<')
-      .replace(/&gt;/gmi, '>')
       .replace(/</gmi, '&lt;')
       .replace(/>/gmi, '&gt;')
       .replace(/&lt;b&gt;/gmi, '<b>')
