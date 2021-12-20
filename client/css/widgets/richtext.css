@@ -1,5 +1,8 @@
 .richtext {
   display: inline-block;
-  background-color: var(--editColor) !important;
-  overflow: auto;
+  box-sizing: content-box;
+  background-color: var(--wcMain);
+  border-color: var(--wcBorder);
+  border-style: solid;
+  overflow: auto;  
 }
