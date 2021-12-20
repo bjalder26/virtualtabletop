@@ -11,6 +11,11 @@ export class Richtext extends Widget {
       layer: -2,
       typeClasses: 'widget richtext',
 
+	  backgroundColor: null,
+      borderColor: null,
+	  color: 'black',
+	  image: '',
+	  svgReplaces: {},
       text: ''
     });
 
@@ -62,9 +67,9 @@ export class Richtext extends Widget {
       .replace(/&lt;sup&gt;/gmi, '<sup>')
       .replace(/&lt;\/sup&gt;/gmi, '</sup>')
       
-      .replace(/&lt;select name='(.+)'&gt;/gmi, "<select name='$1'>")
+      .replace(/&lt;select name='(.+?)'&gt;/gmi, "<select name='$1'>")
       .replace(/&lt;\/select&gt;/gmi, '</select>')
-      .replace(/&lt;option value='(.+)'&gt;/gmi, "<option value='$1'>")
+      .replace(/&lt;option value='(.+?)'&gt;/gmi, "<option value='$1'>")
       .replace(/&lt;\/option&gt;/gmi, '</option>')
       
       .replace(/&lt;a href='(https|http)(.+?)'&gt;/gmi, "<a href='https$2' rel='noopener noreferrer nofollow'>")
@@ -89,5 +94,33 @@ export class Richtext extends Widget {
             
       this.input.innerHTML = richtext;
     }
+  }
+  
+    css() {
+    let css = super.css();
+    if(this.get('backgroundColor'))
+      css += '; --wcMain:' + this.get('backgroundColor');
+    if(this.get('borderColor'))
+      css += '; --wcBorder:' + this.get('borderColor');
+    if(this.get('image'))
+      css += '; background-image: url("' + this.getImage() + '")';
+
+    return css;
+  }
+
+  cssProperties() {
+    const p = super.cssProperties();
+    p.push('backgroundColor', 'borderColor', 'image', 'svgReplaces');
+    return p;
+  }
+  
+  getImage() {
+    if(!Object.keys(this.get('svgReplaces')).length)
+      return this.get('image');
+
+    const replaces = {};
+    for(const key in this.get('svgReplaces'))
+      replaces[key] = this.get(this.get('svgReplaces')[key]);
+    return getSVG(this.get('image'), replaces, _=>this.domElement.style.cssText = this.css());
   }
 }
