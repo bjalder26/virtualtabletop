@@ -62,16 +62,16 @@ export class Richtext extends Widget {
       .replace(/&lt;sup&gt;/gmi, '<sup>')
       .replace(/&lt;\/sup&gt;/gmi, '</sup>')
       
-      .replace(/&lt;select name='(.+)'&gt;/gmi, "<select name='$1'>")
+      .replace(/&lt;select name='(.+?)'&gt;/gmi, "<select name='$1'>")
       .replace(/&lt;\/select&gt;/gmi, '</select>')
-      .replace(/&lt;option value='(.+)'&gt;/gmi, "<option value='$1'>")
+      .replace(/&lt;option value='(.+?)'&gt;/gmi, "<option value='$1'>")
       .replace(/&lt;\/option&gt;/gmi, '</option>')
       
-      .replace(/&lt;a href='(https||http)(.+)'&gt;/gmi, "<a href='https$2' rel='noopener noreferrer nofollow'>")
+      .replace(/&lt;a href='(https|http)(.+?)'&gt;/gmi, "<a href='https$2' rel='noopener noreferrer nofollow'>")
       .replace(/&lt;\/a&gt;/gmi, '</a>')
       
-      .replace(/&lt;span style='(.+)'&gt;/gmi, "<span style='$1'>")
-      .replace(/&lt;span class='(.+)'&gt;/gmi, "<span class='$1'>")
+      .replace(/&lt;span style='(.+?)'&gt;/gmi, "<span style='$1'>")
+      .replace(/&lt;span class='(.+?)'&gt;/gmi, "<span class='$1'>")
       .replace(/&lt;\/span&gt;/gmi, '</span>')
       
       .replace(/&lt;h1&gt;/gmi, '<h1>')
