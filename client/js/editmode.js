@@ -1,3 +1,6 @@
+let loadedAsset = false;
+let backgroundColor = false;
+let borderColor = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
@@ -353,6 +356,7 @@ function applyEditOptionsPiece(widget) {
 
 //richtext functions
 function populateEditOptionsRichtext(widget) {
+  $('[title=richtextImageUploaded]').innerHTML = null;
   $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
   $('#richtextText').innerHTML = widget.text || "~ no text found ~";
@@ -945,7 +949,13 @@ async function updateWidget(currentState, oldState, applyChangesFromUI) {
 
 async function onClickUpdateWidget(applyChangesFromUI) {
   await updateWidget($('#editWidgetJSON').value, $('#editWidgetJSON').dataset.previousState, applyChangesFromUI);
-
+	const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	if(backgroundColor)
+		widget.set('backgroundColor', backgroundColor);
+	if(borderColor)
+		widget.set('borderColor', borderColor);
+    if(loadedAsset)
+		widget.set('image', loadedAsset);
   showOverlay();
 }
 
@@ -1240,17 +1250,16 @@ onLoad(function() {
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value)
 
   on('[title=richtextbackgroundColor]', 'change' , function(){
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  widget.set('backgroundColor', $('[title=richtextbackgroundColor]').value);
+	  backgroundColor = $('[title=richtextbackgroundColor]').value;
   })
   on('[title=richtextborderColor]', 'change' , function(){
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  widget.set('borderColor', $('[title=richtextborderColor]').value);
+	  borderColor = $('[title=richtextborderColor]').value;
   })
   on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  if(asset)
-		  widget.set('image', asset);
+	  if(asset) {
+		  loadedAsset = asset;
+		  $('[title=richtextImageUploaded]').innerHTML = asset;
+	  }
   }))
   on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value)
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
