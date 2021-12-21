@@ -34,7 +34,6 @@ export class Richtext extends Widget {
       .replace(/<a href&#61(?:'|")(?:www)(.+?)(?:'|")>/gmi, "<a href='https://www$1' rel='noopener noreferrer nofollow'>")
       .replace(/<a href&#61(?:'|")(?:\/)(.+?)(?:'|")>/gmi, "<a href='/$1' rel='noopener noreferrer nofollow'>")
       .replace(/<a href&#61(?:'|")(.+?)(?:'|")>/gmi, "<a href='https://www.$1' rel='noopener noreferrer nofollow'>")
-            
       this.input.innerHTML = richtext;
     }
   }

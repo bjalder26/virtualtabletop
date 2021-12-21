@@ -1257,6 +1257,24 @@ onLoad(function() {
   on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value)
   on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value)
 
+  on('[title=richtextbackgroundColor]', 'change' , function(){
+	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  widget.set('backgroundColor', $('[title=richtextbackgroundColor]').value);
+  })
+  on('[title=richtextborderColor]', 'change' , function(){
+	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  widget.set('borderColor', $('[title=richtextborderColor]').value);
+  })
+  on('[title=richtextImage]', 'change' , _=>uploadAsset().then(function(asset) {
+	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  if(asset)
+		  widget.set('image', asset);
+  }))
+  on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value)
+  on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
+  on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value)
+  on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value)
+
   on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value)
   on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value)
   on('#basicHeightNumber', 'input', e=>$('#basicHeight').value=e.target.value)
