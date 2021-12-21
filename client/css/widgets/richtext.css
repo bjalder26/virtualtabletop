@@ -1,4 +1,5 @@
 .richtext {
+  color: #6d6d6d;
   display: inline-block;
   box-sizing: content-box;
   background-color: var(--wcMain);
