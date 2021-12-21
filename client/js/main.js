@@ -315,6 +315,37 @@ onLoad(function() {
     toServer('setRedirect', 'return');
   });
 
+// richtext editor
+  on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontnames"]', 'change', function(){formatDoc('fontname',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
+
+
+  on('[title="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt};});
+  on('[title="Print"]', 'click', function(){printDoc();});
+  on('[title="Undo"]', 'click', function(){formatDoc('undo');});
+  on('[title="Redo"]', 'click', function(){formatDoc('redo');});
+  on('[title="Remove formatting"]', 'click', function(){formatDoc('removeFormat')});
+  on('[title="Bold"]', 'click', function(){formatDoc('bold');});
+  on('[title="Italic"]', 'click', function(){formatDoc('italic');});
+  on('[title="Underline"]', 'click', function(){formatDoc('underline');});
+  on('[title="Left align"]', 'click', function(){formatDoc('justifyleft');});
+  on('[title="Center align"]', 'click', function(){formatDoc('justifycenter');});
+  on('[title="Right align"]', 'click', function(){formatDoc('justifyright');});
+  on('[title="Numbered list"]', 'click', function(){formatDoc('insertorderedlist');});
+  on('[title="Dotted list"]', 'click', function(){formatDoc('insertunorderedlist');});
+  on('[title="Quote"]', 'click', function(){formatDoc('formatblock','blockquote');});
+  on('[title="Delete indentation"]', 'click', function(){formatDoc('outdent');});
+  on('[title="Add indentation"]', 'click', function(){formatDoc('indent');});
+  on('[title="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','http:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}});
+  on('[title="Cut"]', 'click', function(){formatDoc('cut');});
+  on('[title="Copy"]', 'click', function(){formatDoc('copy');});
+  on('[title="Paste"]', 'click', function(){formatDoc('paste');});
+  on('#switchBox', 'change', function(){setDocMode(this.checked);});
+//
+  
   checkURLproperties(false);
   setScale();
   startWebSocket();
