@@ -6,16 +6,15 @@ export class Richtext extends Widget {
     this.input = document.createElement('div');
 
     this.addDefaults({
-      height: 20,
       movable: false,
       layer: -2,
       typeClasses: 'widget richtext',
 
-	  backgroundColor: null,
-      borderColor: null,
-	  color: 'black',
-	  image: '',
-	  svgReplaces: {},
+      backgroundColor: 'transparent',
+      borderColor: 'transparent',
+      color: '#6d6d6d',
+      image: '',
+      svgReplaces: {},
       text: ''
     });
 
