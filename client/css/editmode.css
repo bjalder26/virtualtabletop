@@ -175,4 +175,9 @@ img.intLink { border: 0; }
   min-width: 498px;
   min-height: 200px;
 }
-#editMode label { cursor: pointer; }
+#editMode label { 
+  cursor: pointer;
+}
+#sourceText {
+  white-space: normal;
+}
