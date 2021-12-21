@@ -99,16 +99,6 @@ function populateEditOptionsButton(widget) {
   }
 }
 
-function populateEditOptionsRichtext(widget) {
-  $('#richtextText').innerHTML = widget.text || "~ no text found ~";
-  $('#richtextWidth').value = widget.width||100;
-  $('#richtextHeight').value = widget.height||20;
-  $('#richtextWidthNumber').value = widget.width||100;
-  $('#richtextHeightNumber').value = widget.height||20;
-  $('#richtextEditable').checked = widget.editable;
-  initRichtextEditor();
-}
-
 var oDoc, sDefTxt;
 
 function initRichtextEditor() {
@@ -361,6 +351,22 @@ function applyEditOptionsPiece(widget) {
   widget.color = $('#pieceColor').value;
 }
 
+//richtext functions
+function populateEditOptionsRichtext(widget) {
+  $('#richtextText').innerHTML = widget.text || "~ no text found ~";
+  $('#richtextWidth').value = widget.width||100;
+  $('#richtextHeight').value = widget.height||20;
+  $('#richtextWidthNumber').value = widget.width||100;
+  $('#richtextHeightNumber').value = widget.height||20;
+  initRichtextEditor();
+}
+
+function applyEditOptionsRichtext(widget) {
+  widget.text = $('#richtextText').innerHTML
+  applyWidthHeight(widget, $('#richtextWidthNumber').value, 'width');
+  applyWidthHeight(widget, $('#richtextHeightNumber').value, 'height');
+}
+
 //seat functions
 function populateEditOptionsSeat(widget) {
   $('#seatPlayerColor').value = widget.color || "black";
@@ -455,6 +461,8 @@ async function applyEditOptions(widget) {
     applyEditOptionsLabel(widget);
   if(type == 'piece')
     applyEditOptionsPiece(widget);
+  if(type == 'richtext')
+    applyEditOptionsRichtext(widget);
   if(type == 'seat')
     applyEditOptionsSeat(widget);
   if(type == 'spinner')
@@ -1220,6 +1228,11 @@ onLoad(function() {
   on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value)
   on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value)
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value)
+
+  on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value)
+  on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
+  on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value)
+  on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value)
 
   on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value)
   on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value)
