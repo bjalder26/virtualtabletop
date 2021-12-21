@@ -353,6 +353,8 @@ function applyEditOptionsPiece(widget) {
 
 //richtext functions
 function populateEditOptionsRichtext(widget) {
+  $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
+  $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
   $('#richtextText').innerHTML = widget.text || "~ no text found ~";
   $('#richtextWidth').value = widget.width||100;
   $('#richtextHeight').value = widget.height||20;
@@ -365,6 +367,14 @@ function applyEditOptionsRichtext(widget) {
   widget.text = $('#richtextText').innerHTML
   applyWidthHeight(widget, $('#richtextWidthNumber').value, 'width');
   applyWidthHeight(widget, $('#richtextHeightNumber').value, 'height');
+}
+
+function colorNameToHex(color){
+	if(color.includes('#'))
+		return color;
+    var ctx = document.createElement('canvas').getContext('2d');
+    ctx.fillStyle = color;
+    return ctx.fillStyle;
 }
 
 //seat functions
@@ -1229,6 +1239,19 @@ onLoad(function() {
   on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value)
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value)
 
+  on('[title=richtextbackgroundColor]', 'change' , function(){
+	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  widget.set('backgroundColor', $('[title=richtextbackgroundColor]').value);
+  })
+  on('[title=richtextborderColor]', 'change' , function(){
+	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  widget.set('borderColor', $('[title=richtextborderColor]').value);
+  })
+  on('[title=richtextImage]', 'change' , _=>uploadAsset().then(function(asset) {
+	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  if(asset)
+		  widget.set('image', asset);
+  }))
   on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value)
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
   on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value)
