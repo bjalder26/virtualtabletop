@@ -1247,7 +1247,7 @@ onLoad(function() {
 	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
 	  widget.set('borderColor', $('[title=richtextborderColor]').value);
   })
-  on('[title=richtextImage]', 'change' , _=>uploadAsset().then(function(asset) {
+  on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
 	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
 	  if(asset)
 		  widget.set('image', asset);
