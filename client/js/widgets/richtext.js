@@ -30,10 +30,10 @@ export class Richtext extends Widget {
       .replace(/=/gimu, '&#61')
       .replace(/'style&#61'/gmi, 'style=')
       .replace(/'class&#61'/gmi, 'class=')
-      .replace(/<a href&#61"(https|http)(.+?)">/gmi, '<a href="https$2" rel="noopener noreferrer nofollow">')
-      .replace(/<a href&#61"(www)(.+?)">/gmi, '<a href="https://www$2" rel="noopener noreferrer nofollow">')
-      .replace(/<a href&#61"(\/)(.+?)">/gmi, '<a href="/$2" rel="noopener noreferrer nofollow">')
-      .replace(/<a href&#61"(.+?)">/gmi, '<a href="$1" rel="noopener noreferrer nofollow">')
+      .replace(/<a href&#61'(https|http)(.+?)'>/gmi, "<a href='https$2' rel='noopener noreferrer nofollow'>")
+      .replace(/<a href&#61'(www)(.+?)'>/gmi, "<a href='https://www$2' rel='noopener noreferrer nofollow'>")
+      .replace(/<a href&#61'(\/)(.+?)'>/gmi, "<a href='/$2' rel='noopener noreferrer nofollow'>")
+      .replace(/<a href&#61'(.+?)'>/gmi, "<a href='$1' rel='noopener noreferrer nofollow'>")
 
       this.input.innerHTML = richtext;
     }
