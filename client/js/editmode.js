@@ -360,9 +360,9 @@ function populateEditOptionsRichtext(widget) {
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
   $('#richtextText').innerHTML = widget.text || "~ no text found ~";
   $('#richtextWidth').value = widget.width||100;
-  $('#richtextHeight').value = widget.height||20;
+  $('#richtextHeight').value = widget.height||100;
   $('#richtextWidthNumber').value = widget.width||100;
-  $('#richtextHeightNumber').value = widget.height||20;
+  $('#richtextHeightNumber').value = widget.height||100;
   initRichtextEditor();
 }
 
