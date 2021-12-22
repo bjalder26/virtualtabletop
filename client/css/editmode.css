@@ -161,7 +161,7 @@ body.edit .widget > .widget {
 }
 .intLink { cursor: pointer; }
 img.intLink { border: 0; }
-#toolBar1 select { font-size:10px; }
+
 #textBox {
   width: 540px;
   height: 200px;
@@ -180,4 +180,24 @@ img.intLink { border: 0; }
 }
 #sourceText {
   white-space: normal;
+}
+.richtextToolbar{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 0;
+  border-top: 1px solid lightgray;
+}
+
+.richtextToolbar .spacer{
+  width: 1px;
+  overflow: hidden;
+  display: inline-block;
+  background: lightgray;
+  margin: 0 10px;
+}
+
+.richtextToolbar select option{
+  font-size: 1rem;
+  font-family: 'Roboto';
 }

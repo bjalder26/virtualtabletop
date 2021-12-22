@@ -315,33 +315,36 @@ onLoad(function() {
     toServer('setRedirect', 'return');
   });
 
-// richtext editor
+  // richtext editor
+
   on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
-  on('[title="Fontnames"]', 'change', function(){formatDoc('fontname',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontnames"]', 'change', function(){formatDoc('fontname',this[this.selectedIndex].value,'span');this.selectedIndex=0;});
   on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
 
+  on('.intLink.command', 'click', function(e){formatDoc(this.dataset.command, this.dataset.value);});
+  on('.intLink', 'mousedown', function(e){e.preventDefault();});
 
-  on('[title="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt};});
-  on('[title="Undo"]', 'click', function(){formatDoc('undo');});
-  on('[title="Redo"]', 'click', function(){formatDoc('redo');});
-  on('[title="Remove formatting"]', 'click', function(){formatDoc('removeFormat')});
-  on('[title="Bold"]', 'click', function(){formatDoc('bold');});
-  on('[title="Italic"]', 'click', function(){formatDoc('italic');});
-  on('[title="Underline"]', 'click', function(){formatDoc('underline');});
-  on('[title="Left align"]', 'click', function(){formatDoc('justifyleft');});
-  on('[title="Center align"]', 'click', function(){formatDoc('justifycenter');});
-  on('[title="Right align"]', 'click', function(){formatDoc('justifyright');});
-  on('[title="Numbered list"]', 'click', function(){formatDoc('insertorderedlist');});
-  on('[title="Dotted list"]', 'click', function(){formatDoc('insertunorderedlist');});
-  on('[title="Quote"]', 'click', function(){formatDoc('formatblock','blockquote');});
-  on('[title="Delete indentation"]', 'click', function(){formatDoc('outdent');});
-  on('[title="Add indentation"]', 'click', function(){formatDoc('indent');});
-  on('[title="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','http:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}});
+  on('[data-command="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt};});
+  on('[data-command="Image"]', 'click', function(){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}});
+  on('[data-command="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}});
   on('#switchBox', 'change', function(){setDocMode(this.checked);});
-//
-  
+
+  on('#richtextHeight', 'change', function(){
+    $('#richtextText').style.height = this.value+"px";
+  });
+  on('#richtextWidth', 'change', function(){
+    $('#richtextText').style.width = this.value+"px";
+  });
+  on('#richtextPadding', 'change', function(){
+    $('#richtextText').style.padding = this.value+"px";
+  });
+
+   
+  //
+
+ 
   checkURLproperties(false);
   setScale();
   startWebSocket();

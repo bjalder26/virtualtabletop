@@ -109,18 +109,19 @@
           <input type="checkbox" id="labelEditable"><label for="labelEditable">Editable in play mode</label>
         </div>
         <div class="richtextEdit">
-          <h1>Edit richtext</h1>
+          <h1>Edit Rich Text</h1>
           <label for="richtextWidth"> Width: &#160;</label><input type="range" min=0 max=1600 value=100  step=10 id="richtextWidth"><input type="text" id="richtextWidthNumber" value=100><br/>
           <label for="richtextHeight"> Height: </label><input type="range" min=0 max=1000 value=20  step=10 id="richtextHeight"><input type="text" id="richtextHeightNumber" value=20><br/>
-          backgroundColor: <input type="color" title="richtextbackgroundColor">
-          borderColor: <input type="color" title="richtextborderColor">
-          Image: <button type="text" title="richtextImage">⬆️ Upload</button> <span style="font-size: 10px;"title="richtextImageUploaded"></span>
+          <label for="richtextPadding"> Padding: </label><input type="range" min=0 max=50 value=20  step=1 id="richtextPadding"><input type="text" id="richtextPaddingNumber" value=5><br/>
+          Background Color: <input type="color" title="richtextbackgroundColor">
+          Border Color: <input type="color" title="richtextborderColor">
+          Background Image: <button type="text" title="richtextImage"><span class="icon">upload</span> Upload</button> <span style="font-size: 10px;"title="richtextImageUploaded"></span>
 		      <br/>
-
           <input type="hidden" name="myDoc">
-          <div id="toolBar1">
+          <div class="richtextToolbar" id="toolBar1">
+            <span class="material-icons" title="Text formatting">text_fields</span>
             <select title="Formatblock">
-              <option selected>- formatting -</option>
+              <option selected>- Text Block -</option>
               <option value="h1">Title 1 &lt;h1&gt;</option>
               <option value="h2">Title 2 &lt;h2&gt;</option>
               <option value="h3">Title 3 &lt;h3&gt;</option>
@@ -131,7 +132,7 @@
               <option value="pre">Preformatted &lt;pre&gt;</option>
             </select>
             <select title="Fontnames">
-              <option class="heading" selected>- font -</option>
+              <option class="heading" selected>- Font -</option>
               <option value="font-standard">Roboto (standard)</option>
               <option value="font-condensed">Condensed</option>
               <option value="font-serif">Serif</option>
@@ -142,7 +143,7 @@
               <option value="font-material-icons">Material Icons</option>
             </select>
             <select title="Fontsizes">
-              <option class="heading" selected>- size -</option>
+              <option class="heading" selected>- Size -</option>
               <option value="1">Very small</option>
               <option value="2">A bit small</option>
               <option value="3">Normal</option>
@@ -152,7 +153,7 @@
               <option value="7">Maximum</option>
             </select>
             <select title="Forecolor">
-              <option class="heading" selected>- color -</option>
+              <option class="heading" selected>- Color -</option>
               <option value="red">Red</option>
               <option value="orange">Orange</option>
               <option value="yellow">Yellow</option>
@@ -167,7 +168,7 @@
               <option value="white">White</option>
             </select>
             <select title="Backcolor">
-              <option class="heading" selected>- background -</option>
+              <option class="heading" selected>- Background Color -</option>
               <option value="red">Red</option>
               <option value="orange">Orange</option>
               <option value="yellow">Yellow</option>
@@ -182,25 +183,34 @@
               <option value="white">White</option>
             </select>
           </div>
-          <div id="toolBar2">
-          <!-- <img class="intLink" title="Clean" src="data:image/gif;base64,R0lGODlhFgAWAIQbAD04KTRLYzFRjlldZl9vj1dusY14WYODhpWIbbSVFY6O7IOXw5qbms+wUbCztca0ccS4kdDQjdTLtMrL1O3YitHa7OPcsd/f4PfvrvDv8Pv5xv///////////////////yH5BAEKAB8ALAAAAAAWABYAAAV84CeOZGmeaKqubMteyzK547QoBcFWTm/jgsHq4rhMLoxFIehQQSAWR+Z4IAyaJ0kEgtFoLIzLwRE4oCQWrxoTOTAIhMCZ0tVgMBQKZHAYyFEWEV14eQ8IflhnEHmFDQkAiSkQCI2PDC4QBg+OAJc0ewadNCOgo6anqKkoIQA7" /> -->
-          <!-- <img class="intLink" title="Undo" src="data:image/gif;base64,R0lGODlhFgAWAOMKADljwliE33mOrpGjuYKl8aezxqPD+7/I19DV3NHa7P///////////////////////yH5BAEKAA8ALAAAAAAWABYAAARR8MlJq7046807TkaYeJJBnES4EeUJvIGapWYAC0CsocQ7SDlWJkAkCA6ToMYWIARGQF3mRQVIEjkkSVLIbSfEwhdRIH4fh/DZMICe3/C4nBQBADs=" /> -->
-          <!-- <img class="intLink" title="Redo" src="data:image/gif;base64,R0lGODlhFgAWAMIHAB1ChDljwl9vj1iE34Kl8aPD+7/I1////yH5BAEKAAcALAAAAAAWABYAAANKeLrc/jDKSesyphi7SiEgsVXZEATDICqBVJjpqWZt9NaEDNbQK1wCQsxlYnxMAImhyDoFAElJasRRvAZVRqqQXUy7Cgx4TC6bswkAOw==" /> -->
-          <img class="intLink" title="Remove formatting" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAABGdBTUEAALGPC/xhBQAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAd0SU1FB9oECQMCKPI8CIIAAAAIdEVYdENvbW1lbnQA9syWvwAAAuhJREFUOMtjYBgFxAB501ZWBvVaL2nHnlmk6mXCJbF69zU+Hz/9fB5O1lx+bg45qhl8/fYr5it3XrP/YWTUvvvk3VeqGXz70TvbJy8+Wv39+2/Hz19/mGwjZzuTYjALuoBv9jImaXHeyD3H7kU8fPj2ICML8z92dlbtMzdeiG3fco7J08foH1kurkm3E9iw54YvKwuTuom+LPt/BgbWf3//sf37/1/c02cCG1lB8f//f95DZx74MTMzshhoSm6szrQ/a6Ir/Z2RkfEjBxuLYFpDiDi6Af///2ckaHBp7+7wmavP5n76+P2ClrLIYl8H9W36auJCbCxM4szMTJac7Kza////R3H1w2cfWAgafPbqs5g7D95++/P1B4+ECK8tAwMDw/1H7159+/7r7ZcvPz4fOHbzEwMDwx8GBgaGnNatfHZx8zqrJ+4VJBh5CQEGOySEua/v3n7hXmqI8WUGBgYGL3vVG7fuPK3i5GD9/fja7ZsMDAzMG/Ze52mZeSj4yu1XEq/ff7W5dvfVAS1lsXc4Db7z8C3r8p7Qjf///2dnZGxlqJuyr3rPqQd/Hhyu7oSpYWScylDQsd3kzvnH738wMDzj5GBN1VIWW4c3KDon7VOvm7S3paB9u5qsU5/x5KUnlY+eexQbkLNsErK61+++VnAJcfkyMTIwffj0QwZbJDKjcETs1Y8evyd48toz8y/ffzv//vPP4veffxpX77z6l5JewHPu8MqTDAwMDLzyrjb/mZm0JcT5Lj+89+Ybm6zz95oMh7s4XbygN3Sluq4Mj5K8iKMgP4f0////fv77//8nLy+7MCcXmyYDAwODS9jM9tcvPypd35pne3ljdjvj26+H2dhYpuENikgfvQeXNmSl3tqepxXsqhXPyc666s+fv1fMdKR3TK72zpix8nTc7bdfhfkEeVbC9KhbK/9iYWHiErbu6MWbY/7//8/4//9/pgOnH6jGVazvFDRtq2VgiBIZrUTIBgCk+ivHvuEKwAAAAABJRU5ErkJggg==">
-          <img class="intLink" title="Bold" src="data:image/gif;base64,R0lGODlhFgAWAID/AMDAwAAAACH5BAEAAAAALAAAAAAWABYAQAInhI+pa+H9mJy0LhdgtrxzDG5WGFVk6aXqyk6Y9kXvKKNuLbb6zgMFADs=" />
-          <img class="intLink" title="Italic" src="data:image/gif;base64,R0lGODlhFgAWAKEDAAAAAF9vj5WIbf///yH5BAEAAAMALAAAAAAWABYAAAIjnI+py+0Po5x0gXvruEKHrF2BB1YiCWgbMFIYpsbyTNd2UwAAOw==" />
-          <img class="intLink" title="Underline" src="data:image/gif;base64,R0lGODlhFgAWAKECAAAAAF9vj////////yH5BAEAAAIALAAAAAAWABYAAAIrlI+py+0Po5zUgAsEzvEeL4Ea15EiJJ5PSqJmuwKBEKgxVuXWtun+DwxCCgA7" />
-          <img class="intLink" title="Left align" src="data:image/gif;base64,R0lGODlhFgAWAID/AMDAwAAAACH5BAEAAAAALAAAAAAWABYAQAIghI+py+0Po5y02ouz3jL4D4JMGELkGYxo+qzl4nKyXAAAOw==" />
-          <img class="intLink" title="Center align" src="data:image/gif;base64,R0lGODlhFgAWAID/AMDAwAAAACH5BAEAAAAALAAAAAAWABYAQAIfhI+py+0Po5y02ouz3jL4D4JOGI7kaZ5Bqn4sycVbAQA7" />
-          <img class="intLink" title="Right align" src="data:image/gif;base64,R0lGODlhFgAWAID/AMDAwAAAACH5BAEAAAAALAAAAAAWABYAQAIghI+py+0Po5y02ouz3jL4D4JQGDLkGYxouqzl43JyVgAAOw==" />
-          <img class="intLink" title="Numbered list" src="data:image/gif;base64,R0lGODlhFgAWAMIGAAAAADljwliE35GjuaezxtHa7P///////yH5BAEAAAcALAAAAAAWABYAAAM2eLrc/jDKSespwjoRFvggCBUBoTFBeq6QIAysQnRHaEOzyaZ07Lu9lUBnC0UGQU1K52s6n5oEADs=" />
-          <img class="intLink" title="Dotted list" src="data:image/gif;base64,R0lGODlhFgAWAMIGAAAAAB1ChF9vj1iE33mOrqezxv///////yH5BAEAAAcALAAAAAAWABYAAAMyeLrc/jDKSesppNhGRlBAKIZRERBbqm6YtnbfMY7lud64UwiuKnigGQliQuWOyKQykgAAOw==" />
-          <img class="intLink" title="Quote" src="data:image/gif;base64,R0lGODlhFgAWAIQXAC1NqjFRjkBgmT9nqUJnsk9xrFJ7u2R9qmKBt1iGzHmOrm6Sz4OXw3Odz4Cl2ZSnw6KxyqO306K63bG70bTB0rDI3bvI4P///////////////////////////////////yH5BAEKAB8ALAAAAAAWABYAAAVP4CeOZGmeaKqubEs2CekkErvEI1zZuOgYFlakECEZFi0GgTGKEBATFmJAVXweVOoKEQgABB9IQDCmrLpjETrQQlhHjINrTq/b7/i8fp8PAQA7" />
-          <img class="intLink" title="Delete indentation" src="data:image/gif;base64,R0lGODlhFgAWAMIHAAAAADljwliE35GjuaezxtDV3NHa7P///yH5BAEAAAcALAAAAAAWABYAAAM2eLrc/jDKCQG9F2i7u8agQgyK1z2EIBil+TWqEMxhMczsYVJ3e4ahk+sFnAgtxSQDqWw6n5cEADs=" />
-          <img class="intLink" title="Add indentation" src="data:image/gif;base64,R0lGODlhFgAWAOMIAAAAADljwl9vj1iE35GjuaezxtDV3NHa7P///////////////////////////////yH5BAEAAAgALAAAAAAWABYAAAQ7EMlJq704650B/x8gemMpgugwHJNZXodKsO5oqUOgo5KhBwWESyMQsCRDHu9VOyk5TM9zSpFSr9gsJwIAOw==" />
-          <!-- <img class="intLink" title="Hyperlink" src="data:image/gif;base64,R0lGODlhFgAWAOMKAB1ChDRLY19vj3mOrpGjuaezxrCztb/I19Ha7Pv8/f///////////////////////yH5BAEKAA8ALAAAAAAWABYAAARY8MlJq7046827/2BYIQVhHg9pEgVGIklyDEUBy/RlE4FQF4dCj2AQXAiJQDCWQCAEBwIioEMQBgSAFhDAGghGi9XgHAhMNoSZgJkJei33UESv2+/4vD4TAQA7" /> -->
-          </div>
-          <div id="richtextText" contenteditable="true" style="width: 100%;min-height:500px;border:1px solid gray;"></div>
+          <div class="richtextToolbar" id="toolBar2">
+          <!-- <span class="material-icons intLink command" data-command="" title="Clean">cleaning_services</span> -->
+          <!-- <span class="material-icons intLink command" data-command="" title="Undo">undo</span> -->
+          <!-- <span class="material-icons intLink command" data-command="" title="Redo">redo</span> -->
+          <span class="material-icons intLink" data-command="removeFormat" title="Remove formatting">restart_alt</span>
+          <span class="spacer">&nbsp</span>
+          <span class="material-icons intLink command" data-command="bold" title="Bold">format_bold</span>
+          <span class="material-icons intLink command" data-command="italic" title="Italic">format_italic</span>
+          <span class="material-icons intLink command" data-command="underline" title="Underline">format_underlined</span>
+          <span class="spacer">&nbsp</span>
+          <span class="material-icons intLink command" data-command="justifyleft" title="Left align">format_align_left</span>
+          <span class="material-icons intLink command" data-command="justifycenter" title="Center align">format_align_center</span>
+          <span class="material-icons intLink command" data-command="justifyright" title="Right align">format_align_right</span>
+          <span class="spacer">&nbsp</span>
+          <span class="material-icons intLink command" data-command="insertorderedlist" title="Numbered list">format_list_numbered</span>
+          <span class="material-icons intLink command" data-command="insertunorderedlist" title="Dotted list">format_list_bulleted</span>
+          <span class="spacer">&nbsp</span>
+          <span class="material-icons intLink command" data-command="formatblock" data-value="blockquote" title="Quote">format_quote</span>
+          <span class="material-icons intLink command" data-command="outdent" title="Delete indentation">format_indent_decrease</span>
+          <span class="material-icons intLink command" data-command="indent" title="Add indentation">format_indent_increase</span>
+          <span class="spacer">&nbsp</span>
+          <span class="material-icons intLink command" data-command="superscript" title="Superscript">superscript</span>
+          <span class="material-icons intLink command" data-command="subscript" title="Subscript">subscript</span>
+          <span class="spacer">&nbsp</span>
+          <span class="material-icons intLink" data-command="Image" title="Image" >image</span>
+
+        </div>
+          <div id="richtextText" contenteditable="true" style="width: 100%;height:500px;border:1px solid gray;"></div>
           <p id="editMode"><input type="checkbox" name="switchMode" id="switchBox" /> <label for="switchBox">Show HTML</label></p>
         </div>
         <div class="pieceEdit">
