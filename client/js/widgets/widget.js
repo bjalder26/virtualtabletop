@@ -363,7 +363,7 @@ export class Widget extends StateManaged {
   }
   css() {
     let css = this.get('css');
-    css = this.cssBorderRadius() + css;
+    css = this.cssPxOrPercent('borderRadius', 'border-radius') + css;
     css += '; width:'  + this.get('width')  + 'px';
     css += '; height:' + this.get('height') + 'px';
     css += '; z-index:' + this.calculateZ();
@@ -372,12 +372,16 @@ export class Widget extends StateManaged {
     return css;
   }
 
-  cssBorderRadius() {
-    let br = this.get('borderRadius');
+  cssPxOrPercent(property, cssProperty, excludeProperty) {
+    let br = this.get(property);
+    let prop = `${cssProperty}:`;
+    if(excludeProperty)
+      prop = '';
+
     switch(typeof(br)) {
       case 'number':
         if(br >= 0)
-          return `border-radius:${br}px;`;
+          return `${prop}${br}px;`;
         else
           return '';
       case 'string':
@@ -386,7 +390,7 @@ export class Widget extends StateManaged {
         const valueList = `(?:${value}(?: ${value}){0,3})`;
         const re = new RegExp(`^${valueList}(?: ?\\/ ?${valueList})?` + '\x24');
         if(br.match(re))
-          return `border-radius:${br};`;
+          return `${prop}${br};`;
         else
           return '';
       default:
