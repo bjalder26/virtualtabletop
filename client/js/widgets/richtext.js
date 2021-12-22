@@ -11,8 +11,6 @@ export class Richtext extends Widget {
       typeClasses: 'widget richtext',
 
       backgroundColor: null,
-      borderColor: null,
-	    backgroundColor: 'transparent',
       borderColor: 'transparent',
 	    color: 'black',
       textColor: 'black',
