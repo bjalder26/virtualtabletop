@@ -375,6 +375,7 @@ function applyEditOptionsRichtext(widget) {
   widget.text = $('#richtextText').innerHTML
   applyWidthHeight(widget, $('#richtextWidthNumber').value, 'width');
   applyWidthHeight(widget, $('#richtextHeightNumber').value, 'height');
+  applyWidthHeight(widget, $('#richtextPaddingNumber').value, 'padding');
 }
 
 function colorNameToHex(color){
@@ -1281,6 +1282,8 @@ onLoad(function() {
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
   on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value)
   on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value)
+  on('#richtextPaddingNumber', 'input', e=>$('#richtextPadding').value=e.target.value)
+  on('#richtextPadding', 'input', e=>$('#richtextPaddingNumber').value=e.target.value)
 
   on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value)
   on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value)
