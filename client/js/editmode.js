@@ -373,13 +373,13 @@ function applyEditOptionsRichtext(widget) {
 }
 
 function colorNameToHex(color){
-	if(color) {
-	if(color.includes('#'))
-		return color;
+  if(color) {
+    if(color.includes('#'))
+      return color;
     var ctx = document.createElement('canvas').getContext('2d');
     ctx.fillStyle = color;
     return ctx.fillStyle;
-	} else { return null}
+  } else { return null}
 }
 
 //seat functions
@@ -672,7 +672,7 @@ function addCompositeWidgetToAddWidgetOverlay(widgetsToAdd, onClick) {
     if(wi.type == 'holder') w = new Holder(wi.id);
     if(wi.type == 'label')  w = new Label(wi.id);
     if(wi.type == 'pile')   w = new Pile(wi.id);
-	if(wi.type == 'richtext')   w = new Richtext(wi.id);
+    if(wi.type == 'richtext')   w = new Richtext(wi.id);
     if(wi.type == 'timer')  w = new Timer(wi.id);
     widgets.set(wi.id, w);
     w.applyDelta(wi);
@@ -842,13 +842,12 @@ function populateAddWidgetOverlay() {
   });
 
   // Populate the Decorative panel in the add widget overlay
-    addWidgetToAddWidgetOverlay(new Richtext('add-richtext'), {
+  addWidgetToAddWidgetOverlay(new Richtext('add-richtext'), {
     type: 'richtext',
     text: 'Richtext',
     x: 1000,
     y: 200
   });
-  
   addWidgetToAddWidgetOverlay(new Label('add-label'), {
     type: 'label',
     text: 'Label',
@@ -957,7 +956,7 @@ async function updateWidget(currentState, oldState, applyChangesFromUI) {
 }
 
 async function onClickUpdateWidget(applyChangesFromUI) {
- if (document.getElementById("switchBox").checked) { setDocMode(false); }	
+  if (document.getElementById("switchBox").checked) { setDocMode(false); }
   await updateWidget($('#editWidgetJSON').value, $('#editWidgetJSON').dataset.previousState, applyChangesFromUI);
 	const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
 	if(backgroundColor)

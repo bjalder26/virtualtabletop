@@ -9,15 +9,13 @@ export class Richtext extends Widget {
       movable: false,
       layer: -2,
       typeClasses: 'widget richtext',
-	  
-	  backgroundColor: null,
-      borderColor: null,
-	  //backgroundColor: 'transparent',
+
+      backgroundColor: null,
       borderColor: 'transparent',
-	  color: 'black',
+	    color: 'black',
       textColor: 'black',
-	  image: '',
-	  svgReplaces: {},
+      image: '',
+      svgReplaces: {},
       text: ''
     });
 
@@ -40,7 +38,7 @@ export class Richtext extends Widget {
     }
   }
 
-    css() {
+  css() {
     let css = super.css();
     if(this.get('backgroundColor'))
       css += '; --wcMain:' + this.get('backgroundColor');

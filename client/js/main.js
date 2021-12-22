@@ -324,7 +324,6 @@ onLoad(function() {
 
 
   on('[title="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt};});
-  on('[title="Print"]', 'click', function(){printDoc();});
   on('[title="Undo"]', 'click', function(){formatDoc('undo');});
   on('[title="Redo"]', 'click', function(){formatDoc('redo');});
   on('[title="Remove formatting"]', 'click', function(){formatDoc('removeFormat')});
@@ -340,9 +339,6 @@ onLoad(function() {
   on('[title="Delete indentation"]', 'click', function(){formatDoc('outdent');});
   on('[title="Add indentation"]', 'click', function(){formatDoc('indent');});
   on('[title="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','http:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}});
-  on('[title="Cut"]', 'click', function(){formatDoc('cut');});
-  on('[title="Copy"]', 'click', function(){formatDoc('copy');});
-  on('[title="Paste"]', 'click', function(){formatDoc('paste');});
   on('#switchBox', 'change', function(){setDocMode(this.checked);});
 //
   
