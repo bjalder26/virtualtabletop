@@ -561,22 +561,6 @@ html:-webkit-full-screen #fullscreenButton .tooltip::before {
   line-height: 18px;
 }
 
-.symbols {
-  font-family: 'VTT-Symbols';
-}
-
-.standard_font {
-  font-family: 'Roboto';
-}
-
-.handwriting_font {
-  font-family: 'Handwriting';
-}
-
-.handwriting_casual_font {
-  font-family: 'Handwriting Casual';
-}
-
 .prettyButton:hover {
   background-color: var(--VTTblueDark);
 }
