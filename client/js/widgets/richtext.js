@@ -12,8 +12,9 @@ export class Richtext extends Widget {
 
       backgroundColor: null,
       borderColor: 'transparent',
-	    color: 'black',
+	  color: 'black',
       textColor: 'black',
+	  padding: null,
       image: '',
       svgReplaces: {},
       text: ''
@@ -50,6 +51,8 @@ export class Richtext extends Widget {
       css += '; background-image: url("' + this.getImage() + '")';
     if(this.get('textColor'))
       css += '; --wcFont:' + this.get('textColor');
+    if(this.get('padding'))
+      css += '; --padding:' + this.cssPxOrPercent('padding', 'padding', true);
     return css;
   }
 
