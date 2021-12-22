@@ -136,9 +136,11 @@
               <option value="font-standard">Roboto (standard)</option>
               <option value="font-condensed">Condensed</option>
               <option value="font-serif">Serif</option>
-              <option value="font-fantasy">Fantasy</option>
               <option value="font-handwriting">Handwriting</option>
               <option value="font-handwriting-casual">Handwriting Casual</option>
+              <option value="font-fantasy">Fantasy</option>
+              <option value="font-horror">Horror</option>
+              <option value="font-tech">Tech</option>
               <option value="font-vtt-symbols">VTT Symbols</option>
               <option value="font-material-icons">Material Icons</option>
             </select>
@@ -184,32 +186,28 @@
             </select>
           </div>
           <div class="richtextToolbar" id="toolBar2">
-          <!-- <span class="material-icons intLink command" data-command="" title="Clean">cleaning_services</span> -->
-          <!-- <span class="material-icons intLink command" data-command="" title="Undo">undo</span> -->
-          <!-- <span class="material-icons intLink command" data-command="" title="Redo">redo</span> -->
-          <span class="material-icons intLink" data-command="removeFormat" title="Remove formatting">restart_alt</span>
-          <span class="spacer">&nbsp</span>
-          <span class="material-icons intLink command" data-command="bold" title="Bold">format_bold</span>
-          <span class="material-icons intLink command" data-command="italic" title="Italic">format_italic</span>
-          <span class="material-icons intLink command" data-command="underline" title="Underline">format_underlined</span>
-          <span class="spacer">&nbsp</span>
-          <span class="material-icons intLink command" data-command="justifyleft" title="Left align">format_align_left</span>
-          <span class="material-icons intLink command" data-command="justifycenter" title="Center align">format_align_center</span>
-          <span class="material-icons intLink command" data-command="justifyright" title="Right align">format_align_right</span>
-          <span class="spacer">&nbsp</span>
-          <span class="material-icons intLink command" data-command="insertorderedlist" title="Numbered list">format_list_numbered</span>
-          <span class="material-icons intLink command" data-command="insertunorderedlist" title="Dotted list">format_list_bulleted</span>
-          <span class="spacer">&nbsp</span>
-          <span class="material-icons intLink command" data-command="formatblock" data-value="blockquote" title="Quote">format_quote</span>
-          <span class="material-icons intLink command" data-command="outdent" title="Delete indentation">format_indent_decrease</span>
-          <span class="material-icons intLink command" data-command="indent" title="Add indentation">format_indent_increase</span>
-          <span class="spacer">&nbsp</span>
-          <span class="material-icons intLink command" data-command="superscript" title="Superscript">superscript</span>
-          <span class="material-icons intLink command" data-command="subscript" title="Subscript">subscript</span>
-          <span class="spacer">&nbsp</span>
-          <span class="material-icons intLink" data-command="Image" title="Image" >image</span>
-
-        </div>
+            <span class="material-icons intLink" data-command="removeFormat" title="Remove formatting">restart_alt</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="bold" title="Bold">format_bold</span>
+            <span class="material-icons intLink command" data-command="italic" title="Italic">format_italic</span>
+            <span class="material-icons intLink command" data-command="underline" title="Underline">format_underlined</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="justifyleft" title="Left align">format_align_left</span>
+            <span class="material-icons intLink command" data-command="justifycenter" title="Center align">format_align_center</span>
+            <span class="material-icons intLink command" data-command="justifyright" title="Right align">format_align_right</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="insertorderedlist" title="Numbered list">format_list_numbered</span>
+            <span class="material-icons intLink command" data-command="insertunorderedlist" title="Dotted list">format_list_bulleted</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="formatblock" data-value="blockquote" title="Quote">format_quote</span>
+            <span class="material-icons intLink command" data-command="outdent" title="Delete indentation">format_indent_decrease</span>
+            <span class="material-icons intLink command" data-command="indent" title="Add indentation">format_indent_increase</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="superscript" title="Superscript">superscript</span>
+            <span class="material-icons intLink command" data-command="subscript" title="Subscript">subscript</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink" data-command="Image" title="Image" >image</span>
+          </div>
           <div id="richtextText" contenteditable="true" style="width: 100%;height:500px;border:1px solid gray;"></div>
           <p id="editMode"><input type="checkbox" name="switchMode" id="switchBox" /> <label for="switchBox">Show HTML</label></p>
         </div>

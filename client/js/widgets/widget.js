@@ -374,10 +374,10 @@ export class Widget extends StateManaged {
 
   cssPxOrPercent(property, cssProperty, excludeProperty) {
     let br = this.get(property);
-	let prop = `${cssProperty}:`;
-	if(excludeProperty)
-		prop = '';
-        
+    let prop = `${cssProperty}:`;
+    if(excludeProperty)
+      prop = '';
+
     switch(typeof(br)) {
       case 'number':
         if(br >= 0)

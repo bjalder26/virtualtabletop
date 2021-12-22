@@ -16,6 +16,7 @@ export class Richtext extends Widget {
       textColor: 'black',
 	  padding: null,
       image: '',
+      padding: null,
       svgReplaces: {},
       text: ''
     });

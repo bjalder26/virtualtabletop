@@ -9,7 +9,7 @@
   padding: var(--padding);
   --wcMain: null;
   --wcBorder: null;
-  --padding 0px;
+  --padding: 0px;
 }
 
 #richtextText{
