@@ -6,14 +6,16 @@ export class Richtext extends Widget {
     this.input = document.createElement('div');
 
     this.addDefaults({
-      height: 20,
       movable: false,
       layer: -2,
       typeClasses: 'widget richtext',
-
+	  
 	  backgroundColor: null,
       borderColor: null,
+	  //backgroundColor: 'transparent',
+      borderColor: 'transparent',
 	  color: 'black',
+      textColor: 'black',
 	  image: '',
 	  svgReplaces: {},
       text: ''
@@ -46,13 +48,14 @@ export class Richtext extends Widget {
       css += '; --wcBorder:' + this.get('borderColor');
     if(this.get('image'))
       css += '; background-image: url("' + this.getImage() + '")';
-
+    if(this.get('textColor'))
+      css += '; --wcFont:' + this.get('textColor');
     return css;
   }
 
   cssProperties() {
     const p = super.cssProperties();
-    p.push('backgroundColor', 'borderColor', 'image', 'svgReplaces');
+    p.push('backgroundColor', 'borderColor', 'textColor', 'image', 'svgReplaces');
     return p;
   }
 
