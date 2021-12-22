@@ -29,6 +29,8 @@ export class Richtext extends Widget {
       .replace(/=/gimu, '&#61')
       .replace(/style&#61/gmi, 'style=')
       .replace(/class&#61/gmi, 'class=')
+      .replace(/color&#61/gmi, 'color=')
+      .replace(/face&#61/gmi, 'face=')
       .replace(/<a href&#61(?:'|")(?:https)(.+?)(?:'|")>/gmi, "<a href='https$1' rel='noopener noreferrer nofollow'>")
       .replace(/<a href&#61(?:'|")(?:http)(.+?)(?:'|")>/gmi, "<a href='https$1' rel='noopener noreferrer nofollow'>")
       .replace(/<a href&#61(?:'|")(?:www)(.+?)(?:'|")>/gmi, "<a href='https://www$1' rel='noopener noreferrer nofollow'>")

@@ -1,11 +1,15 @@
-.richtext {
+.widget.richtext {
   color: var(--wcFont);
   display: inline-block;
-  box-sizing: content-box;
+  box-sizing: border-box;
   background-color: var(--wcMain);
   border-color: var(--wcBorder);
   border-style: solid;
   overflow: auto;
   --wcMain: null;
   --wcBorder: null;
+}
+
+#richtextText{
+  box-sizing: border-box;
 }
