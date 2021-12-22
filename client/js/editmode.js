@@ -849,7 +849,7 @@ function populateAddWidgetOverlay() {
   // Populate the Decorative panel in the add widget overlay
   addWidgetToAddWidgetOverlay(new Richtext('add-richtext'), {
     type: 'richtext',
-    text: '<span style="line-height:30px;font-size:30px;"><b class="font-fantasy">R</b><em style="color:red">i</em>c<span style="color:green">h</span><span class="font-fantasy">t</span><span style="background-color:yellow;">ex</span><sup>t</sup></span>',
+    text: '<span>&nbsp;</span><span style="line-height:30px;font-size:30px;"><b class="font-fantasy">R</b><em style="color:red">i</em>c<span style="color:green">h</span><span class="font-fantasy">t</span><span style="background-color:yellow;">ex</span><sup>t</sup></span>',
     height: 50,
     width: 200,
     x: 1000,
