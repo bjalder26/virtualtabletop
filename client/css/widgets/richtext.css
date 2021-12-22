@@ -6,6 +6,6 @@
   border-color: var(--wcBorder);
   border-style: solid;
   overflow: auto;
-  --wcMain: transparent;
-  --wcBorder: transparent;
+  --wcMain: null;
+  --wcBorder: null;
 }
