@@ -1,3 +1,6 @@
+let loadedAsset = false;
+let backgroundColor = false;
+let borderColor = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
@@ -80,7 +83,6 @@ function populateEditOptionsButton(widget) {
   $('#buttonColorMain').value = widget.backgroundColor || "#1f5ca6";
   $('#buttonColorBorder').value = widget.borderColor || "#0d2f5e";
   $('#buttonColorText').value = widget.textColor || "#ffffff"
-
 
   $('#buttonText').style = "display: inline";
   $('[for=buttonText]').style = "display: inline";
@@ -353,13 +355,14 @@ function applyEditOptionsPiece(widget) {
 
 //richtext functions
 function populateEditOptionsRichtext(widget) {
+  $('[title=richtextImageUploaded]').innerHTML = null;
   $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
   $('#richtextText').innerHTML = widget.text || "~ no text found ~";
   $('#richtextWidth').value = widget.width||100;
-  $('#richtextHeight').value = widget.height||20;
+  $('#richtextHeight').value = widget.height||100;
   $('#richtextWidthNumber').value = widget.width||100;
-  $('#richtextHeightNumber').value = widget.height||20;
+  $('#richtextHeightNumber').value = widget.height||100;
   initRichtextEditor();
 }
 
@@ -370,11 +373,13 @@ function applyEditOptionsRichtext(widget) {
 }
 
 function colorNameToHex(color){
+	if(color) {
 	if(color.includes('#'))
 		return color;
     var ctx = document.createElement('canvas').getContext('2d');
     ctx.fillStyle = color;
     return ctx.fillStyle;
+	} else { return null}
 }
 
 //seat functions
@@ -667,6 +672,7 @@ function addCompositeWidgetToAddWidgetOverlay(widgetsToAdd, onClick) {
     if(wi.type == 'holder') w = new Holder(wi.id);
     if(wi.type == 'label')  w = new Label(wi.id);
     if(wi.type == 'pile')   w = new Pile(wi.id);
+	if(wi.type == 'richtext')   w = new Richtext(wi.id);
     if(wi.type == 'timer')  w = new Timer(wi.id);
     widgets.set(wi.id, w);
     w.applyDelta(wi);
@@ -836,6 +842,13 @@ function populateAddWidgetOverlay() {
   });
 
   // Populate the Decorative panel in the add widget overlay
+    addWidgetToAddWidgetOverlay(new Richtext('add-richtext'), {
+    type: 'richtext',
+    text: 'Richtext',
+    x: 1000,
+    y: 200
+  });
+  
   addWidgetToAddWidgetOverlay(new Label('add-label'), {
     type: 'label',
     text: 'Label',
@@ -944,8 +957,15 @@ async function updateWidget(currentState, oldState, applyChangesFromUI) {
 }
 
 async function onClickUpdateWidget(applyChangesFromUI) {
+ if (document.getElementById("switchBox").checked) { setDocMode(false); }	
   await updateWidget($('#editWidgetJSON').value, $('#editWidgetJSON').dataset.previousState, applyChangesFromUI);
-
+	const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	if(backgroundColor)
+		widget.set('backgroundColor', backgroundColor);
+	if(borderColor)
+		widget.set('borderColor', borderColor);
+    if(loadedAsset)
+		widget.set('image', loadedAsset);
   showOverlay();
 }
 
@@ -1240,35 +1260,16 @@ onLoad(function() {
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value)
   
   on('[title=richtextbackgroundColor]', 'change' , function(){
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  widget.set('backgroundColor', $('[title=richtextbackgroundColor]').value);
+	  backgroundColor = $('[title=richtextbackgroundColor]').value;
   })
   on('[title=richtextborderColor]', 'change' , function(){
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  widget.set('borderColor', $('[title=richtextborderColor]').value);
+	  borderColor = $('[title=richtextborderColor]').value;
   })
-  on('[title=richtextImage]', 'change' , _=>uploadAsset().then(function(asset) {
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  if(asset)
-		  widget.set('image', asset);
-  }))
-  on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value)
-  on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
-  on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value)
-  on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value)
-
-  on('[title=richtextbackgroundColor]', 'change' , function(){
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  widget.set('backgroundColor', $('[title=richtextbackgroundColor]').value);
-  })
-  on('[title=richtextborderColor]', 'change' , function(){
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  widget.set('borderColor', $('[title=richtextborderColor]').value);
-  })
-  on('[title=richtextImage]', 'change' , _=>uploadAsset().then(function(asset) {
-	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  if(asset)
-		  widget.set('image', asset);
+  on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
+	  if(asset) {
+		  loadedAsset = asset;
+		  $('[title=richtextImageUploaded]').innerHTML = asset;
+	  }
   }))
   on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value)
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
