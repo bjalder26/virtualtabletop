@@ -244,7 +244,7 @@ function placeTags(tag, passedClass){
     range = selection.getRangeAt(0);
     range.deleteContents();
     var node = document.createElement(tag);
-	node.setAttribute('class', passedClass);
+    node.setAttribute('class', passedClass);
     node.innerHTML = rep;
     range.insertNode(node);
   }
