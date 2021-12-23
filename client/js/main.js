@@ -236,6 +236,20 @@ function getSVG(url, replaces, callback) {
   return '';
 }
 
+function placeTags(tag, passedClass){
+  var selection, range;
+  if (document.getSelection) {
+    selection = document.getSelection();
+    var rep = selection.toString();
+    range = selection.getRangeAt(0);
+    range.deleteContents();
+    var node = document.createElement(tag);
+	node.setAttribute('class', passedClass);
+    node.innerHTML = rep;
+    range.insertNode(node);
+  }
+}
+
 onLoad(function() {
   on('#pileOverlay', 'click', e=>e.target.id=='pileOverlay'&&showOverlay());
 
@@ -318,7 +332,7 @@ onLoad(function() {
   // richtext editor
 
   on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
-  on('[title="Fontnames"]', 'change', function(){formatDoc('fontname',this[this.selectedIndex].value,'span');this.selectedIndex=0;});
+  on('[title="Fontnames"]', 'change', function() {placeTags('span', this[this.selectedIndex].value);});
   on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
@@ -340,8 +354,6 @@ onLoad(function() {
   on('#richtextPadding', 'change', function(){
     $('#richtextText').style.padding = this.value+"px";
   });
-
-   
   //
 
  
