@@ -332,7 +332,7 @@ onLoad(function() {
   // richtext editor
 
   on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
-  on('[title="Fontnames"]', 'change', function() {placeTags('span', this[this.selectedIndex].value);});
+  on('[title="Fontnames"]', 'change', function() {if(validateMode())placeTags('span', this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
