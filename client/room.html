@@ -113,9 +113,9 @@
           <label for="richtextWidth"> Width: &#160;</label><input type="range" min=0 max=1600 value=100  step=10 id="richtextWidth"><input type="text" id="richtextWidthNumber" value=100><br/>
           <label for="richtextHeight"> Height: </label><input type="range" min=0 max=1000 value=20  step=10 id="richtextHeight"><input type="text" id="richtextHeightNumber" value=20><br/>
           <label for="richtextPadding"> Padding: </label><input type="range" min=0 max=50 value=20  step=1 id="richtextPadding"><input type="text" id="richtextPaddingNumber" value=5><br/>
-          Background Color: <input type="color" title="richtextbackgroundColor">
-          Border Color: <input type="color" title="richtextborderColor">
-          Background Image: <button type="text" title="richtextImage"><span class="icon">upload</span> Upload</button> <span style="font-size: 10px;"title="richtextImageUploaded"></span>
+          <label for="richtextbackgroundColor">Background Color: </label><input type="color" title="richtextbackgroundColor">
+          <label for="richtextborderColor">Border Color: </label><input type="color" title="richtextborderColor">
+          <label for="richtextImage">Background Image: </label><button type="text" title="richtextImage"><span class="icon">upload</span> Upload</button>
 		      <br/>
           <input type="hidden" name="myDoc">
           <div class="richtextToolbar" id="toolBar1">
@@ -184,6 +184,21 @@
               <option value="gray">Gray</option>
               <option value="white">White</option>
             </select>
+			
+			            <select title="Fonts">
+              <option class="heading" selected>- Font -</option>
+              <option value="font-standard">Roboto (standard)</option>
+              <option value="font-condensed">Condensed</option>
+              <option value="font-serif">Serif</option>
+              <option value="font-handwriting">Handwriting</option>
+              <option value="font-handwriting-casual">Handwriting Casual</option>
+              <option value="font-fantasy">Fantasy</option>
+              <option value="font-horror">Horror</option>
+              <option value="font-tech">Tech</option>
+              <option value="font-vtt-symbols">VTT Symbols</option>
+              <option value="font-material-icons">Material Icons</option>
+            </select>
+			
           </div>
           <div class="richtextToolbar" id="toolBar2">
             <span class="material-icons intLink command" data-command="removeFormat" title="Remove formatting">restart_alt</span>
