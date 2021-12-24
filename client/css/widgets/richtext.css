@@ -14,4 +14,9 @@
 
 #richtextText{
   box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  box-sizing: border-box;
+  overflow: auto;
 }
