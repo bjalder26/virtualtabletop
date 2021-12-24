@@ -241,6 +241,17 @@ function placeTags(tag, passedClass){
   if (document.getSelection) {
     selection = document.getSelection();
     var rep = selection.toString();
+	/*const begRegExp = new RegExp(`/<${tag}.*>/, mU`)
+	const endRegExp = new RegExp(`/<\/${tag}>/, mU`)
+	const begTag = rep.match(begRegExp);
+	const endTag = rep.match(endRegExp);
+	if(begTag && endTag) {
+		let a = 1;
+	} else if(begTag) {
+		let a = 2;
+	} else if(endTag) {
+		let a = 3
+	}*/
     range = selection.getRangeAt(0);
     range.deleteContents();
     var node = document.createElement(tag);
@@ -332,10 +343,12 @@ onLoad(function() {
   // richtext editor
 
   on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
-  on('[title="Fontnames"]', 'change', function() {placeTags('span', this[this.selectedIndex].value);});
+  on('[title="Fontnames"]', 'change', function() {if(validateMode())placeTags('span', this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fonts"]', 'change', function(){formatDoc('formatBlock', 'h1');this.selectedIndex=0;});
+
 
   on('.intLink.command', 'click', function(e){formatDoc(this.dataset.command, this.dataset.value);});
   on('.intLink', 'mousedown', function(e){e.preventDefault();});
