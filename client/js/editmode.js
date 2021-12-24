@@ -303,7 +303,6 @@ function applyEditOptionsPiece(widget) {
 
 //richtext functions
 function populateEditOptionsRichtext(widget) {
-  $('[title=richtextImageUploaded]').innerHTML = null;
   $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
   $('#richtextText').innerHTML = widget.text || "~ no text found ~";
@@ -313,10 +312,15 @@ function populateEditOptionsRichtext(widget) {
   $('#richtextHeight').value = widget.height||100;
   $('#richtextWidthNumber').value = widget.width||100;
   $('#richtextHeightNumber').value = widget.height||100;
+  
   initRichtextEditor();
+  changeRichTextPreview(widget);
 }
 
-function changeRichTextPreview(){
+function changeRichTextPreview(widget){
+  $('#richtextText').style['background-color'] = colorNameToHex(widget.backgroundColor) || null;
+  $('#richtextText').style['border-color'] = colorNameToHex(widget.borderColor) || null;
+  $('#richtextText').style['background-image']  = `url(${widget.image})` || null;
   $('#richtextText').style.height = $('#richtextHeight').value+"px";
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
@@ -1261,34 +1265,34 @@ onLoad(function() {
   loadComponents(editOverlayApp);
   vmEditOverlay = editOverlayApp.mount("#editOverlayVue");
 
-  on('#labelWidthNumber', 'input', e=>$('#labelWidth').value=e.target.value)
-  on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value)
-  on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value)
-  on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value)
+  on('#labelWidthNumber', 'input', e=>$('#labelWidth').value=e.target.value);
+  on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value);
+  on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value);
+  on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
   
   on('[title=richtextbackgroundColor]', 'change' , function(){
 	  backgroundColor = $('[title=richtextbackgroundColor]').value;
-  })
+	  $('#richtextText').style['background-color'] = this.value;
+  });
   on('[title=richtextborderColor]', 'change' , function(){
 	  borderColor = $('[title=richtextborderColor]').value;
-  })
+	 $('#richtextText').style['border-color'] = this.value;
+  });
   on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
-	  if(asset) {
-		  loadedAsset = asset;
-		  $('[title=richtextImageUploaded]').innerHTML = asset;
-	  }
-  }))
-  on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value)
-  on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value)
-  on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value)
-  on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value)
-  on('#richtextPaddingNumber', 'input', e=>$('#richtextPadding').value=e.target.value)
-  on('#richtextPadding', 'input', e=>$('#richtextPaddingNumber').value=e.target.value)
+	  if(asset)
+		  $('#richtextText').style['background-image'] = `url(${asset})`;
+  }));
+  on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value);
+  on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value);
+  on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value);
+  on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value);
+  on('#richtextPaddingNumber', 'input', e=>$('#richtextPadding').value=e.target.value);
+  on('#richtextPadding', 'input', e=>$('#richtextPaddingNumber').value=e.target.value);
 
-  on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value)
-  on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value)
-  on('#basicHeightNumber', 'input', e=>$('#basicHeight').value=e.target.value)
-  on('#basicHeight', 'input', e=>$('#basicHeightNumber').value=e.target.value)
+  on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value);
+  on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value);
+  on('#basicHeightNumber', 'input', e=>$('#basicHeight').value=e.target.value);
+  on('#basicHeight', 'input', e=>$('#basicHeightNumber').value=e.target.value);
 
   on('#uploadButtonImage', 'click', _=>uploadAsset().then(function(asset) {
     if(asset)
