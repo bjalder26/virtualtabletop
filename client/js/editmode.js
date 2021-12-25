@@ -329,7 +329,6 @@ function changeRichTextPreview(widget){
   $('#richtextText').style.height = $('#richtextHeight').value+"px";
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
-  $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value || "none";
 }
 
 var oDoc, sDefTxt;
