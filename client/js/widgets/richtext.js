@@ -12,13 +12,14 @@ export class Richtext extends Widget {
 
       backgroundColor: null,
       borderColor: 'transparent',
+	  borderStyle: 'none',
+	  borderWidth: 0,
 	  color: 'black',
-      textColor: 'black',
+	  image: '',
 	  padding: null,
-      image: '',
-      padding: null,
-      svgReplaces: {},
-      text: ''
+	  svgReplaces: {},
+	  text: '',
+      textColor: 'black'
     });
 
     this.domElement.appendChild(this.input);
@@ -30,6 +31,9 @@ export class Richtext extends Widget {
       var richtext = this.get('text').toString()
       .replace(/=/gimu, '&#61')
       .replace(/style&#61/gmi, 'style=')
+	  .replace(/src&#61/gmi, 'src=')
+	  .replace(/height&#61/gmi, 'height=')
+	  .replace(/width&#61/gmi, 'width=')
       .replace(/class&#61/gmi, 'class=')
       .replace(/color&#61/gmi, 'color=')
       .replace(/face&#61/gmi, 'face=')
@@ -44,22 +48,29 @@ export class Richtext extends Widget {
 
   css() {
     let css = super.css();
+	if(this.get('borderStyle'))
+      css += '; --borderStyle:' + this.get('borderStyle');
     if(this.get('backgroundColor'))
       css += '; --wcMain:' + this.get('backgroundColor');
-    if(this.get('borderColor'))
+    if(this.get('borderType'))
+      css += '; --borderStyle:' + this.get('borderStyle');
+    if(this.get('borderStyle'))
       css += '; --wcBorder:' + this.get('borderColor');
     if(this.get('image'))
       css += '; background-image: url("' + this.getImage() + '")';
     if(this.get('textColor'))
       css += '; --wcFont:' + this.get('textColor');
+  let a = this.cssPxOrPercent('padding', 'padding', true);
     if(this.get('padding'))
-      css += '; --padding:' + this.cssPxOrPercent('padding', 'padding', true);
+      css += ' --padding:' + this.cssPxOrPercent('padding', 'padding', true);
+    if(this.get('borderWidth'))
+      css += ' --borderWidth:' + this.cssPxOrPercent('borderWidth', 'border-width', true);
     return css;
   }
 
   cssProperties() {
     const p = super.cssProperties();
-    p.push('backgroundColor', 'borderColor', 'textColor', 'image', 'svgReplaces');
+    p.push('backgroundColor', 'borderColor', 'textColor', 'image', 'svgReplaces', 'borderStyle');
     return p;
   }
 
