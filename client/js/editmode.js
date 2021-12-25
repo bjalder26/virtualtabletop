@@ -1269,14 +1269,14 @@ onLoad(function() {
   on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value);
   on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value);
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
-  
+
   on('[title=richtextbackgroundColor]', 'change' , function(){
 	  backgroundColor = $('[title=richtextbackgroundColor]').value;
-	  $('#richtextText').style['background-color'] = this.value;
+    $('#richtextText').style['background-color'] = this.value;
   });
   on('[title=richtextborderColor]', 'change' , function(){
 	  borderColor = $('[title=richtextborderColor]').value;
-	 $('#richtextText').style['border-color'] = this.value;
+    $('#richtextText').style['border-color'] = this.value;
   });
   on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
 	  if(asset)
