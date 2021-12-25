@@ -1,6 +1,7 @@
 let loadedAsset = false;
 let backgroundColor = false;
 let borderColor = false;
+let borderStyle = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
@@ -30,9 +31,9 @@ function populateEditOptionsBasic(widget) {
   $('#basicImage').value = widget.image || "~ no image found ~";
 
   if (widget.layer < 1){
-    $('#basicTypeBoard').checked = true
+    $('#basicTypeBoard').checked = true;
   } else {
-    $('#basicTypeToken').checked = true
+    $('#basicTypeToken').checked = true;
   }
 
   $('#basicWidth').value = widget.width||100;
@@ -82,7 +83,7 @@ function populateEditOptionsButton(widget) {
   $('#buttonImage').value = widget.image || "~ no image found ~";
   $('#buttonColorMain').value = widget.backgroundColor || "#1f5ca6";
   $('#buttonColorBorder').value = widget.borderColor || "#0d2f5e";
-  $('#buttonColorText').value = widget.textColor || "#ffffff"
+  $('#buttonColorText').value = widget.textColor || "#ffffff";
 
   $('#buttonText').style = "display: inline";
   $('[for=buttonText]').style = "display: inline";
@@ -130,7 +131,7 @@ function applyEditOptionsButton(widget) {
 
 //canvas functions
 function populateEditOptionsCanvas(widget) {
-  const cm = widget.colorMap || Canvas.defaultColors
+  const cm = widget.colorMap || Canvas.defaultColors;
   const ctx = document.createElement('canvas').getContext('2d');
 
   for(let i=0; i<10; ++i) {
@@ -180,7 +181,7 @@ function applyEditOptionsCanvas(widget) {
   }
 }
 
-//deck functions
+// deck functions
 async function applyEditOptionsDeck(widget) {
   for(const type of $a('#cardTypesList tr.cardType')) {
     const id = $('.id', type).value;
@@ -268,11 +269,11 @@ function applyEditOptionsLabel(widget) {
 function populateEditOptionsPiece(widget) {
   $('#pieceColor').value = widget.color || "black";
   if (widget.classes == "classicPiece") {
-    $('#pieceTypeClassic').checked = true
+    $('#pieceTypeClassic').checked = true;
   } else if (widget.classes == "checkersPiece" || widget.classes == "checkersPiece crowned") {
-    $('#pieceTypeChecker').checked = true
+    $('#pieceTypeChecker').checked = true;
   } else if (widget.classes == "pinPiece") {
-    $('#pieceTypePin').checked = true
+    $('#pieceTypePin').checked = true;
   }
 }
 
@@ -312,6 +313,9 @@ function populateEditOptionsRichtext(widget) {
   $('#richtextHeight').value = widget.height||100;
   $('#richtextWidthNumber').value = widget.width||100;
   $('#richtextHeightNumber').value = widget.height||100;
+  $('#richtextBorderWidth').value = widget.borderWidth||0;
+  $('#richtextBorderWidthNumber').value = widget.borderWidth||0;
+  $('#richtextText').style['border-style'] = widget.borderStyle || 'none';
   
   initRichtextEditor();
   changeRichTextPreview(widget);
@@ -320,10 +324,12 @@ function populateEditOptionsRichtext(widget) {
 function changeRichTextPreview(widget){
   $('#richtextText').style['background-color'] = colorNameToHex(widget.backgroundColor) || null;
   $('#richtextText').style['border-color'] = colorNameToHex(widget.borderColor) || null;
+  $('#richtextText').style['border-width'] = $('#richtextBorderWidth').value+"px";
   $('#richtextText').style['background-image']  = `url(${widget.image})` || null;
   $('#richtextText').style.height = $('#richtextHeight').value+"px";
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
+  $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value || "none";
 }
 
 var oDoc, sDefTxt;
@@ -373,23 +379,25 @@ function setDocMode(bToSource) {
 
 var commandRelation = {};
 
-
-
 function applyEditOptionsRichtext(widget) {
-  widget.text = $('#richtextText').innerHTML
+  widget.text = $('#richtextText').innerHTML;
   applyWidthHeight(widget, $('#richtextWidthNumber').value, 'width');
   applyWidthHeight(widget, $('#richtextHeightNumber').value, 'height');
   applyWidthHeight(widget, $('#richtextPaddingNumber').value, 'padding');
+  applyWidthHeight(widget, $('#richtextBorderWidth').value, 'borderWidth');
 }
 
 function colorNameToHex(color){
   if(color) {
-    if(color.includes('#'))
+    if(color.includes('#')) {
+		if(color.length == 4)
+			color = '#'+color[1]+color[1]+color[2]+color[2]+color[3]+color[3];
       return color;
+	}
     var ctx = document.createElement('canvas').getContext('2d');
     ctx.fillStyle = color;
     return ctx.fillStyle;
-  } else { return null}
+  } else { return null;}
 }
 
 //seat functions
@@ -431,8 +439,8 @@ function applyEditOptionsSpinner(widget) {
 function populateEditOptionsTimer(widget) {
   $('#timerCountdown').checked = widget.countdown;
   if (widget.end || widget.end==0){
-    var duration = Math.abs(widget.start-widget.end)
-    console.log(duration,Math.floor(duration / 60000),Math.floor((duration % 60000)/1000))
+    var duration = Math.abs(widget.start-widget.end);
+    console.log(duration,Math.floor(duration / 60000),Math.floor((duration % 60000)/1000));
     $('#timerMinutes').value = Math.floor(duration / 60000) || 0;
     $('#timerSeconds').value = Math.floor((duration % 60000)/1000);
   } else {
@@ -445,18 +453,18 @@ function populateEditOptionsTimer(widget) {
 function applyEditOptionsTimer(widget) {
   widget.countdown = $('#timerCountdown').checked;
   if ($('#timerMinutes').value == "--" && $('#timerSeconds').value == "--"){
-    delete widget.start
-    delete widget.end
+    delete widget.start;
+    delete widget.end;
   } else if ($('#timerCountdown').checked) {
-    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000
-    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000
+    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000;
+    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000;
     widget.end = 0;
-    widget.start = minutes + seconds
+    widget.start = minutes + seconds;
   } else {
-    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000
-    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000
+    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000;
+    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000;
     widget.end = minutes + seconds;
-    widget.start = 0
+    widget.start = 0;
   }
 
 
@@ -513,7 +521,7 @@ function editClick(widget) {
 
   typeSpecific.style.display = 'block';
 
-  vmEditOverlay.selectedWidget = widget
+  vmEditOverlay.selectedWidget = widget;
 
   if(type == 'basic')
     populateEditOptionsBasic(widget.state);
@@ -977,6 +985,8 @@ async function onClickUpdateWidget(applyChangesFromUI) {
 		widget.set('borderColor', borderColor);
     if(loadedAsset)
 		widget.set('image', loadedAsset);
+	if(borderStyle)
+		widget.set('borderStyle', borderStyle);
   showOverlay();
 }
 
@@ -1269,18 +1279,20 @@ onLoad(function() {
   on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value);
   on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value);
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
-
+  
   on('[title=richtextbackgroundColor]', 'change' , function(){
 	  backgroundColor = $('[title=richtextbackgroundColor]').value;
-    $('#richtextText').style['background-color'] = this.value;
+	  $('#richtextText').style['background-color'] = this.value;
   });
   on('[title=richtextborderColor]', 'change' , function(){
 	  borderColor = $('[title=richtextborderColor]').value;
-    $('#richtextText').style['border-color'] = this.value;
+	 $('#richtextText').style['border-color'] = this.value;
   });
-  on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
-	  if(asset)
+on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
+	  if(asset) {
+		  loadedAsset = asset;
 		  $('#richtextText').style['background-image'] = `url(${asset})`;
+	  }
   }));
   on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value);
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value);
@@ -1288,6 +1300,8 @@ onLoad(function() {
   on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value);
   on('#richtextPaddingNumber', 'input', e=>$('#richtextPadding').value=e.target.value);
   on('#richtextPadding', 'input', e=>$('#richtextPaddingNumber').value=e.target.value);
+  on('#richtextBorderWidthNumber', 'input', e=>$('#richtextBorderWidth').value=e.target.value);
+  on('#richtextBorderWidth', 'input', e=>$('#richtextBorderWidthNumber').value=e.target.value);
 
   on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value);
   on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value);
