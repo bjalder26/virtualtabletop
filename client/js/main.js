@@ -241,17 +241,7 @@ function placeTags(tag, passedClass){
   if (document.getSelection) {
     selection = document.getSelection();
     var rep = selection.toString();
-	/*const begRegExp = new RegExp(`/<${tag}.*>/, mU`)
-	const endRegExp = new RegExp(`/<\/${tag}>/, mU`)
-	const begTag = rep.match(begRegExp);
-	const endTag = rep.match(endRegExp);
-	if(begTag && endTag) {
-		let a = 1;
-	} else if(begTag) {
-		let a = 2;
-	} else if(endTag) {
-		let a = 3
-	}*/
+// here
     range = selection.getRangeAt(0);
     range.deleteContents();
     var node = document.createElement(tag);
@@ -353,10 +343,48 @@ onLoad(function() {
   on('.intLink.command', 'click', function(e){formatDoc(this.dataset.command, this.dataset.value);});
   on('.intLink', 'mousedown', function(e){e.preventDefault();});
 
-  on('[data-command="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt};});
+  //on('[data-command="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt}});
   on('[data-command="Image"]', 'click', function(){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}});
-  on('[data-command="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}});
-  on('#switchBox', 'change', function(){setDocMode(this.checked);});
+  on('[data-command="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}); 
+  on('[data-command="ImageUpload"]', 'click', _=>uploadAsset().then(function(asset) {
+	  if(asset) {formatDoc('insertImage',asset)}}));
+  on('#switchBox', 'change', function(){
+	  setDocMode(this.checked);
+  if(this.checked) {
+	    $('#richtextText').style.height = 'inherit';
+		$('#richtextText').style.width = 'inherit';
+		$('#richtextText').style['border-style'] = 'none';
+		$('#richtextText').style['background-color'] = 'white';
+		$('#richtextText').style['background-image'] = 'none';
+  } else {
+	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  let a = widget.get('borderStyle');
+	  let b = widget.get('backgroundColor');
+	  let c = widget.get('image');
+	  let d = $('[title=richtextBorderStyle]').value;
+	  let e = $('[title=richtextbackgroundColor]').value;
+	  let f = $('[title=richtextImage]').value;
+	  let g = loadedAsset ? loadedAsset : widget.get('image');
+	  $('#richtextText').style.height = $('#richtextHeight').value+"px";
+	  $('#richtextText').style.width = $('#richtextWidth').value+"px";
+ 	  $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
+	  $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
+      $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
+  }
+  });
+
+  
+  on('[title="richtextScale"]', 'change', function(){
+  if(this.checked) {
+	  var cssText = document.getElementsByTagName('html')[0].style.cssText
+	  var startPos = cssText.indexOf('--scale:') + 8;
+      var endPos = cssText.indexOf(';',startPos);
+      var roomScale = cssText.substring(startPos,endPos)
+	    $('#richtextText').style.transform = `scale(${roomScale})`; 
+  } else {
+	  $('#richtextText').style.transform = 'scale(1.0)';
+  }
+  });
 
   on('#richtextHeight', 'change', function(){
     $('#richtextText').style.height = this.value+"px";
@@ -366,6 +394,13 @@ onLoad(function() {
   });
   on('#richtextPadding', 'change', function(){
     $('#richtextText').style.padding = this.value+"px";
+  });
+  on('#richtextBorderWidth', 'change', function(){
+    $('#richtextText').style['border-width'] = this.value+"px";
+  });
+    on('[title=richtextBorderStyle]', 'input' , function(){
+	  borderStyle = $('[title=richtextBorderStyle]').value;
+	 $('#richtextText').style['border-style'] = this.value;
   });
   //
 
@@ -415,3 +450,4 @@ if(document.getElementById("volume")) {
     });
   });
 }
+  
