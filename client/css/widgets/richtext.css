@@ -4,12 +4,15 @@
   box-sizing: border-box;
   background-color: var(--wcMain);
   border-color: var(--wcBorder);
-  border-style: solid;
+  border-style: var(--borderStyle);
+  border-width: var(--borderWidth);
   overflow: auto;
   padding: var(--padding);
   --wcMain: null;
   --wcBorder: null;
   --padding: 0px;
+  --borderStyle: none;
+  --borderWidth: 0px;
 }
 
 #richtextText{
@@ -18,5 +21,7 @@
   background-position: center center;
   background-size: contain;
   box-sizing: border-box;
+  box-shadow: 0px 0px 2px black;
   overflow: auto;
+  transform-origin: top left;
 }
