@@ -24,4 +24,5 @@
   box-shadow: 0px 0px 2px black;
   overflow: auto;
   transform-origin: top left;
+  transition: 500ms;
 }

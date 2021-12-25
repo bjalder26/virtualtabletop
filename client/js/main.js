@@ -345,7 +345,7 @@ onLoad(function() {
 
   //on('[data-command="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt}});
   on('[data-command="Image"]', 'click', function(){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}});
-  on('[data-command="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}); 
+  on('[data-command="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}});
   on('[data-command="ImageUpload"]', 'click', _=>uploadAsset().then(function(asset) {
 	  if(asset) {formatDoc('insertImage',asset)}}));
   on('#switchBox', 'change', function(){
@@ -373,14 +373,14 @@ onLoad(function() {
   }
   });
 
-  
-  on('[title="richtextScale"]', 'change', function(){
+
+  on('#richtextScale', 'change', function(){
   if(this.checked) {
 	  var cssText = document.getElementsByTagName('html')[0].style.cssText
 	  var startPos = cssText.indexOf('--scale:') + 8;
       var endPos = cssText.indexOf(';',startPos);
       var roomScale = cssText.substring(startPos,endPos)
-	    $('#richtextText').style.transform = `scale(${roomScale})`; 
+	    $('#richtextText').style.transform = `scale(${roomScale})`;
   } else {
 	  $('#richtextText').style.transform = 'scale(1.0)';
   }
@@ -404,7 +404,7 @@ onLoad(function() {
   });
   //
 
- 
+
   checkURLproperties(false);
   setScale();
   startWebSocket();
@@ -450,4 +450,3 @@ if(document.getElementById("volume")) {
     });
   });
 }
-  
