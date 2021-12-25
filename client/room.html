@@ -113,10 +113,24 @@
           <label for="richtextWidth"> Width: &#160;</label><input type="range" min=0 max=1600 value=100  step=10 id="richtextWidth"><input type="text" id="richtextWidthNumber" value=100><br/>
           <label for="richtextHeight"> Height: </label><input type="range" min=0 max=1000 value=20  step=10 id="richtextHeight"><input type="text" id="richtextHeightNumber" value=20><br/>
           <label for="richtextPadding"> Padding: </label><input type="range" min=0 max=50 value=20  step=1 id="richtextPadding"><input type="text" id="richtextPaddingNumber" value=5><br/>
-          <label for="richtextbackgroundColor">Background Color: </label><input type="color" title="richtextbackgroundColor">
-          <label for="richtextborderColor">Border Color: </label><input type="color" title="richtextborderColor">
+		  <label for="richtextBorderWidth"> Border Width: </label><input type="range" min=0 max=20 value=0  step=1 id="richtextBorderWidth"><input type="text" id="richtextBorderWidthNumber" value=0><p/>
           <label for="richtextImage">Background Image: </label><button type="text" title="richtextImage"><span class="icon">upload</span> Upload</button>
-		      <br/>
+		  <label for="richtextbackgroundColor">Background Color: </label><input type="color" title="richtextbackgroundColor">
+          <label for="richtextborderColor">Border Color: </label><input type="color" title="richtextborderColor">
+		  <label for="richtextBorderStyle">&nbsp</label>
+		  <select title="richtextBorderStyle">
+              <option class="heading" selected>- Border Style -</option>
+              <option value="none">None</option>
+              <option value="dashed">Dashed</option>
+              <option value="dotted">Dotted</option>
+              <option value="double">Double</option>
+              <option value="groove">Groove</option>
+              <option value="hidden">Hidden</option>
+              <option value="inset">Inset</option>
+              <option value="outset">Outset</option>
+              <option value="ridge">Ridge</option>
+              <option value="solid">Solid</option>
+            </select><br/>  
           <input type="hidden" name="myDoc">
           <div class="richtextToolbar" id="toolBar1">
             <span class="material-icons" title="Text formatting">text_fields</span>
@@ -184,8 +198,7 @@
               <option value="gray">Gray</option>
               <option value="white">White</option>
             </select>
-			
-			            <select title="Fonts">
+            <select title="Fonts">
               <option class="heading" selected>- Font -</option>
               <option value="font-standard">Roboto (standard)</option>
               <option value="font-condensed">Condensed</option>
@@ -198,7 +211,6 @@
               <option value="font-vtt-symbols">VTT Symbols</option>
               <option value="font-material-icons">Material Icons</option>
             </select>
-			
           </div>
           <div class="richtextToolbar" id="toolBar2">
             <span class="material-icons intLink command" data-command="removeFormat" title="Remove formatting">restart_alt</span>
@@ -221,10 +233,13 @@
             <span class="material-icons intLink command" data-command="superscript" title="Superscript">superscript</span>
             <span class="material-icons intLink command" data-command="subscript" title="Subscript">subscript</span>
             <span class="spacer">&nbsp</span>
-            <span class="material-icons intLink" data-command="Image" title="Image" >image</span>
+            <span class="material-icons intLink command" data-command="Image" title="Image" >image</span>
+			<span class="material-icons intLink command" data-command="ImageUpload" title="Image Upload" >upload</span>
+			<span class="material-icons intLink command" data-command="Hyperlink" title="Hyperlink" >hyperlink</span>
           </div>
+		  <input type="checkbox" name="switchMode" id="switchBox" /> <label for="switchBox">Show HTML</label>
+		  <input type="checkbox" title="richtextScale"/> <label for="richtextScale">Show Room Scale</label>
           <div id="richtextText" contenteditable="true" style="width: 100%;height:500px;border:1px solid gray;"></div>
-          <p id="editMode"><input type="checkbox" name="switchMode" id="switchBox" /> <label for="switchBox">Show HTML</label></p>
         </div>
         <div class="pieceEdit">
           <h1>Edit game piece</h1>
@@ -319,7 +334,7 @@
       </div>
       <div id="playerList">
         <template id="template-playerlist-entry" type="text/template">
-          <input type="color" class="teamColor"></span> <input class="playerName" />
+          <input type="color" class="teamColor"> <input class="playerName" />
         </template>
         <label class="me ui-line" data-label="Me »"> </label>
         <label class="otherPlayers ui-line" data-label="Other Players »"> </label>
