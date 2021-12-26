@@ -316,6 +316,7 @@ function populateEditOptionsRichtext(widget) {
   $('#richtextBorderWidth').value = widget.borderWidth||0;
   $('#richtextBorderWidthNumber').value = widget.borderWidth||0;
   $('#richtextText').style['border-style'] = widget.borderStyle || 'none';
+  $('#switchBox').checked = false;
   
   initRichtextEditor();
   changeRichTextPreview(widget);
