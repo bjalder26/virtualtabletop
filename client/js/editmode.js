@@ -316,7 +316,7 @@ function populateEditOptionsRichtext(widget) {
   $('#richtextBorderWidth').value = widget.borderWidth||0;
   $('#richtextBorderWidthNumber').value = widget.borderWidth||0;
   $('#richtextText').style['border-style'] = widget.borderStyle || 'none';
-  
+  $('#switchBox').checked = false;
   initRichtextEditor();
   changeRichTextPreview(widget);
 }
@@ -329,7 +329,7 @@ function changeRichTextPreview(widget){
   $('#richtextText').style.height = $('#richtextHeight').value+"px";
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
-  $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value || "none";
+  //$('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value || "none";
 }
 
 var oDoc, sDefTxt;
