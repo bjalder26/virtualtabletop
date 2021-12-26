@@ -330,10 +330,46 @@ onLoad(function() {
     toServer('setRedirect', 'return');
   });
 
+  function setHTML(attr, value) {
+  const selection = document.getSelection();
+  if (selection != '') {
+    document.execCommand('insertHTML', false, `<span ${attr}='${value}'>${selection}</span>`);
+  } else {
+    var node = document.getSelection().anchorNode;
+    let blockNode = getBlockNode(node);
+    console.log(blockNode.nodeName);
+    if (blockNode.id == 'richtextText') {
+      console.log('rtt');
+      let range = new Range();
+      range.setStart(richtextText, 0);
+      range.setEnd(richtextText, 1);
+      var newParent = document.createElement('span');
+      var attribute = document.createAttribute(attr);
+      attribute.value = value;
+      newParent.setAttributeNode(attribute);
+      range.surroundContents(newParent);
+      console.log(range);
+    } else {
+      var attribute = document.createAttribute(attr);
+      attribute.value = value;
+      blockNode.setAttributeNode(attribute);
+    }
+  }
+}
+
+function getBlockNode(node) {
+  let nodeName = node.nodeName;
+  const blockNodeArray = ['BLOCKQUOTE', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'OL', 'P', 'PRE', 'UL'];
+  if (!blockNodeArray.includes(node.nodeName)) {
+    if (node.parentElement != 'undefined' || node.parentElement != null)
+      node = getBlockNode(node.parentElement);
+  }
+  return node
+}
   // richtext editor
 
   on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
-  on('[title="Fontnames"]', 'change', function() {if(validateMode())placeTags('span', this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontnames"]', 'change', function() {if(validateMode())setHTML('class', this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
