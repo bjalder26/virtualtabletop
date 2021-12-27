@@ -306,7 +306,7 @@ function applyEditOptionsPiece(widget) {
 function populateEditOptionsRichtext(widget) {
   $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
-  $('#richtextText').innerHTML = widget.text.replaceAll(' ', '&nbsp;').replaceAll('\n', '<br>')|| "~ no text found ~";
+  $('#richtextText').innerHTML = widget.text.replaceAll('\n', '<br>')|| "~ no text found ~";
   $('#richtextPadding').value = widget.padding||5;
   $('#richtextPaddingNumber').value = widget.padding||5;
   $('#richtextWidth').value = widget.width||100;
@@ -387,7 +387,7 @@ function setDocMode(bToSource) {
 var commandRelation = {};
 
 function applyEditOptionsRichtext(widget) {
-  widget.text = $('#richtextText').innerHTML.replaceAll('&nbsp;', ' ');
+  widget.text = $('#richtextText').innerHTML;
   applyWidthHeight(widget, $('#richtextWidthNumber').value, 'width');
   applyWidthHeight(widget, $('#richtextHeightNumber').value, 'height');
   applyWidthHeight(widget, $('#richtextPaddingNumber').value, 'padding');
