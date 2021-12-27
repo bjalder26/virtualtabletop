@@ -393,13 +393,6 @@ function getBlockNode(node) {
 		$('#richtextText').style['background-image'] = 'none';
   } else {
 	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  let a = widget.get('borderStyle');
-	  let b = widget.get('backgroundColor');
-	  let c = widget.get('image');
-	  let d = $('[title=richtextBorderStyle]').value;
-	  let e = $('[title=richtextbackgroundColor]').value;
-	  let f = $('[title=richtextImage]').value;
-	  let g = loadedAsset ? loadedAsset : widget.get('image');
 	  $('#richtextText').style.height = $('#richtextHeight').value+"px";
 	  $('#richtextText').style.width = $('#richtextWidth').value+"px";
  	  $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
@@ -407,7 +400,6 @@ function getBlockNode(node) {
       $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
   }
   });
-
 
   on('#richtextScale', 'change', function(){
   if(this.checked) {
