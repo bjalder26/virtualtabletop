@@ -382,8 +382,7 @@ function getBlockNode(node) {
   //on('[data-command="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt}});
   on('[data-command="Image"]', 'click', function(){if(validateMode()){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}}});
   on('[data-command="Hyperlink"]', 'click', function(){if(validateMode()){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}}); 
-  on('[data-command="ImageUpload"]', 'click', _=>uploadAsset().then(function(asset) {
-	  if(asset) {formatDoc('insertImage',asset)}}));
+  on('[data-command="ImageUpload"]', 'click', function(){if(validateMode()){uploadAsset().then(function(asset) {if(asset) {formatDoc('insertImage',asset)}})}});
   on('#switchBox', 'change', function(){
 	  setDocMode(this.checked);
   if(this.checked) {
