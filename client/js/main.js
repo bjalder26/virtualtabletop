@@ -386,17 +386,22 @@ function getBlockNode(node) {
   on('#switchBox', 'change', function(){
 	  setDocMode(this.checked);
   if(this.checked) {
-	    $('#richtextText').style.height = 'inherit';
+    $('#richtextText').style.cssText = '';
+	  $('#richtextText').style.height = 'inherit';
 		$('#richtextText').style.width = 'inherit';
 		$('#richtextText').style['border-style'] = 'none';
 		$('#richtextText').style['background-color'] = 'white';
 		$('#richtextText').style['background-image'] = 'none';
   } else {
 	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+    $('#richtextText').style.cssText = widget.get('css');
 	  $('#richtextText').style.height = $('#richtextHeight').value+"px";
 	  $('#richtextText').style.width = $('#richtextWidth').value+"px";
- 	  $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
-	  $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
+    if(borderStyle || widget.get('borderStyle'))
+      $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
+    if(backgroundColor || widget.get('backgroundColor'))
+      $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
+    if(loadedAsset || widget.get('image'))
       $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
   }
   });
