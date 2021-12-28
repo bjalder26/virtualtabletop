@@ -130,7 +130,7 @@
               <option value="outset">Outset</option>
               <option value="ridge">Ridge</option>
               <option value="solid">Solid</option>
-            </select><br/>  
+            </select><br/>
           <input type="hidden" name="myDoc">
           <div class="richtextToolbar" id="toolBar1">
             <span class="material-icons" title="Text formatting">text_fields</span>
@@ -220,12 +220,13 @@
             <span class="material-icons intLink command" data-command="superscript" title="Superscript">superscript</span>
             <span class="material-icons intLink command" data-command="subscript" title="Subscript">subscript</span>
             <span class="spacer">&nbsp</span>
-            <span class="material-icons intLink" data-command="Image" title="Image" >image</span>
-			<span class="material-icons intLink" data-command="ImageUpload" title="Image Upload" >upload</span>
-			<span class="material-icons intLink" data-command="Hyperlink" title="Hyperlink" >link</span>
+            <span class="material-icons intLink" data-command="Image" title="Add Image" >image</span>
+            <span class="material-icons intLink" data-command="ImageUpload" title="Upload Image" >upload</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink" data-command="Hyperlink" title="Add link" >link</span>
           </div>
-		  <input type="checkbox" name="switchMode" id="switchBox" /> <label for="switchBox">Show HTML</label>
-		  <input type="checkbox" title="richtextScale"/> <label for="richtextScale">Show Room Scale</label>
+          <input type="checkbox" name="switchMode" id="switchBox" /> <label for="switchBox">Show raw HTML</label>
+          <input type="checkbox" name="richtextScale" id="richtextScale"/> <label for="richtextScale">Show at room scale</label>
           <div id="richtextText" contenteditable="true" style="width: 100%;height:500px;border:1px solid gray;"></div>
         </div>
         <div class="pieceEdit">

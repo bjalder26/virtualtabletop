@@ -60,7 +60,6 @@ export class Richtext extends Widget {
       css += '; background-image: url("' + this.getImage() + '")';
     if(this.get('textColor'))
       css += '; --wcFont:' + this.get('textColor');
-  let a = this.cssPxOrPercent('padding', 'padding', true);
     if(this.get('padding'))
       css += '; --padding:' + this.cssPxOrPercent('padding', 'padding', true);
     if(this.get('borderWidth'))

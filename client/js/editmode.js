@@ -306,7 +306,7 @@ function applyEditOptionsPiece(widget) {
 function populateEditOptionsRichtext(widget) {
   $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
-  $('#richtextText').innerHTML = widget.text.replaceAll(' ', '&nbsp;').replaceAll('\n', '<br>')|| "~ no text found ~";
+  $('#richtextText').innerHTML = widget.text.replaceAll('\n', '<br>')|| "~ no text found ~";
   $('#richtextPadding').value = widget.padding||5;
   $('#richtextPaddingNumber').value = widget.padding||5;
   $('#richtextWidth').value = widget.width||100;
@@ -324,7 +324,7 @@ function populateEditOptionsRichtext(widget) {
 
 function changeRichTextPreview(widget){
   $('#richtextText').style.cssText = widget.css;
-  if(widget.backgroundColor) 
+  if(widget.backgroundColor)
     $('#richtextText').style['background-color'] = colorNameToHex(widget.backgroundColor);
   if(widget.borderColor)
     $('#richtextText').style['border-color'] = colorNameToHex(widget.borderColor);
@@ -335,7 +335,7 @@ function changeRichTextPreview(widget){
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
   if(widget.borderStyle)
-  $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value;
+    $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value;
 }
 
 var oDoc, sDefTxt;

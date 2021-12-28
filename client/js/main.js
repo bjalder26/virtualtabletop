@@ -330,7 +330,7 @@ onLoad(function() {
     toServer('setRedirect', 'return');
   });
 
-function setHTML(attr, value) {
+  function setHTML(attr, value) {
   const selection = document.getSelection();
   if (selection != '') {
     document.execCommand('insertHTML', false, `<span ${attr}='${value}'>${selection}</span>`);
@@ -366,11 +366,10 @@ function getBlockNode(node) {
   }
   return node
 }
-
   // richtext editor
 
   on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
-  on('[title="Fontnames"]', 'change', function() {if(validateMode())setHTML('class', this[this.selectedIndex].value);this.selectedIndex=0;}); //placeTags('span', this[this.selectedIndex].value);
+  on('[title="Fontnames"]', 'change', function() {if(validateMode())setHTML('class', this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
   on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
@@ -387,34 +386,33 @@ function getBlockNode(node) {
   on('#switchBox', 'change', function(){
 	  setDocMode(this.checked);
   if(this.checked) {
-	    $('#richtextText').style.cssText = '';
-	    $('#richtextText').style.height = 'inherit';
+    $('#richtextText').style.cssText = '';
+	  $('#richtextText').style.height = 'inherit';
 		$('#richtextText').style.width = 'inherit';
 		$('#richtextText').style['border-style'] = 'none';
 		$('#richtextText').style['background-color'] = 'white';
 		$('#richtextText').style['background-image'] = 'none';
   } else {
 	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  $('#richtextText').style.cssText = widget.get('css');
+    $('#richtextText').style.cssText = widget.get('css');
 	  $('#richtextText').style.height = $('#richtextHeight').value+"px";
 	  $('#richtextText').style.width = $('#richtextWidth').value+"px";
-	  if(borderStyle || widget.get('borderStyle'))
- 	    $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
-      if(backgroundColor || widget.get('backgroundColor'))
-	    $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
-      if(loadedAsset || widget.get('image'))
-        $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
+    if(borderStyle || widget.get('borderStyle'))
+      $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
+    if(backgroundColor || widget.get('backgroundColor'))
+      $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
+    if(loadedAsset || widget.get('image'))
+      $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
   }
   });
 
-  
-  on('[title="richtextScale"]', 'change', function(){
+  on('#richtextScale', 'change', function(){
   if(this.checked) {
 	  var cssText = document.getElementsByTagName('html')[0].style.cssText
 	  var startPos = cssText.indexOf('--scale:') + 8;
       var endPos = cssText.indexOf(';',startPos);
       var roomScale = cssText.substring(startPos,endPos)
-	    $('#richtextText').style.transform = `scale(${roomScale})`; 
+	    $('#richtextText').style.transform = `scale(${roomScale})`;
   } else {
 	  $('#richtextText').style.transform = 'scale(1.0)';
   }
@@ -438,7 +436,7 @@ function getBlockNode(node) {
   });
   //
 
- 
+
   checkURLproperties(false);
   setScale();
   startWebSocket();
@@ -484,4 +482,3 @@ if(document.getElementById("volume")) {
     });
   });
 }
-  

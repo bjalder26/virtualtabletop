@@ -175,7 +175,7 @@ img.intLink { border: 0; }
   min-width: 498px;
   min-height: 200px;
 }
-#editMode label { 
+#editMode label {
   cursor: pointer;
 }
 #sourceText {
