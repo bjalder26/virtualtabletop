@@ -379,7 +379,6 @@ function getBlockNode(node) {
   on('.intLink.command', 'click', function(e){formatDoc(this.dataset.command, this.dataset.value);});
   on('.intLink', 'mousedown', function(e){e.preventDefault();});
 
-  //on('[data-command="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt}});
   on('[data-command="Image"]', 'click', function(){if(validateMode()){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}}});
   on('[data-command="Hyperlink"]', 'click', function(){if(validateMode()){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}}); 
   on('[data-command="ImageUpload"]', 'click', function(){if(validateMode()){uploadAsset().then(function(asset) {if(asset) {formatDoc('insertImage',asset)}})}});
@@ -419,20 +418,26 @@ function getBlockNode(node) {
   });
 
   on('#richtextHeight', 'change', function(){
-    $('#richtextText').style.height = this.value+"px";
+	  if(validateMode())
+		  $('#richtextText').style.height = this.value+"px";
   });
   on('#richtextWidth', 'change', function(){
-    $('#richtextText').style.width = this.value+"px";
+	  if(validateMode())
+		  $('#richtextText').style.width = this.value+"px";
   });
   on('#richtextPadding', 'change', function(){
-    $('#richtextText').style.padding = this.value+"px";
+	  if(validateMode())
+		  $('#richtextText').style.padding = this.value+"px";
   });
   on('#richtextBorderWidth', 'change', function(){
-    $('#richtextText').style['border-width'] = this.value+"px";
+	  if(validateMode())
+		  $('#richtextText').style['border-width'] = this.value+"px";
   });
     on('[title=richtextBorderStyle]', 'input' , function(){
+		if(validateMode()) {
 	  borderStyle = $('[title=richtextBorderStyle]').value;
 	 $('#richtextText').style['border-style'] = this.value;
+		}
   });
   //
 
