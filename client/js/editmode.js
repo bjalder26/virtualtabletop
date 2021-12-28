@@ -306,7 +306,7 @@ function applyEditOptionsPiece(widget) {
 function populateEditOptionsRichtext(widget) {
   $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
-  $('#richtextText').innerHTML = widget.text || "~ no text found ~";
+  $('#richtextText').innerHTML = widget.text.replaceAll(' ', '&nbsp;').replaceAll('\n', '<br>')|| "~ no text found ~";
   $('#richtextPadding').value = widget.padding||5;
   $('#richtextPaddingNumber').value = widget.padding||5;
   $('#richtextWidth').value = widget.width||100;
@@ -317,19 +317,25 @@ function populateEditOptionsRichtext(widget) {
   $('#richtextBorderWidthNumber').value = widget.borderWidth||0;
   $('#richtextText').style['border-style'] = widget.borderStyle || 'none';
   $('#switchBox').checked = false;
+  $('[title=richtextScale]').checked = false;
   initRichtextEditor();
   changeRichTextPreview(widget);
 }
 
 function changeRichTextPreview(widget){
-  $('#richtextText').style['background-color'] = colorNameToHex(widget.backgroundColor) || null;
-  $('#richtextText').style['border-color'] = colorNameToHex(widget.borderColor) || null;
+  $('#richtextText').style.cssText = widget.css;
+  if(widget.backgroundColor) 
+    $('#richtextText').style['background-color'] = colorNameToHex(widget.backgroundColor);
+  if(widget.borderColor)
+    $('#richtextText').style['border-color'] = colorNameToHex(widget.borderColor);
   $('#richtextText').style['border-width'] = $('#richtextBorderWidth').value+"px";
-  $('#richtextText').style['background-image']  = `url(${widget.image})` || null;
+  if(widget.image)
+    $('#richtextText').style['background-image']  = `url(${widget.image})`;
   $('#richtextText').style.height = $('#richtextHeight').value+"px";
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
-  //$('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value || "none";
+  if(widget.borderStyle)
+  $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value;
 }
 
 var oDoc, sDefTxt;
@@ -380,7 +386,7 @@ function setDocMode(bToSource) {
 var commandRelation = {};
 
 function applyEditOptionsRichtext(widget) {
-  widget.text = $('#richtextText').innerHTML;
+  widget.text = $('#richtextText').innerHTML.replaceAll('&nbsp;', ' ');
   applyWidthHeight(widget, $('#richtextWidthNumber').value, 'width');
   applyWidthHeight(widget, $('#richtextHeightNumber').value, 'height');
   applyWidthHeight(widget, $('#richtextPaddingNumber').value, 'padding');
