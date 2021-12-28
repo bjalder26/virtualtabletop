@@ -419,21 +419,26 @@ function getBlockNode(node) {
   });
 
   on('#richtextHeight', 'change', function(){
-    $('#richtextText').style.height = this.value+"px";
+    if(validateMode())
+      $('#richtextText').style.height = this.value+"px";
   });
   on('#richtextWidth', 'change', function(){
-    $('#richtextText').style.width = this.value+"px";
+    if(validateMode())
+      $('#richtextText').style.width = this.value+"px";
   });
   on('#richtextPadding', 'change', function(){
-    $('#richtextText').style.padding = this.value+"px";
+    if(validateMode())
+      $('#richtextText').style.padding = this.value+"px";
   });
   on('#richtextBorderWidth', 'change', function(){
-    $('#richtextText').style['border-width'] = this.value+"px";
+    if(validateMode())
+      $('#richtextText').style['border-width'] = this.value+"px";
   });
     on('[title=richtextBorderStyle]', 'input' , function(){
-	  borderStyle = $('[title=richtextBorderStyle]').value;
-	 $('#richtextText').style['border-style'] = this.value;
-  });
+      if(validateMode()) {
+        borderStyle = $('[title=richtextBorderStyle]').value;
+        $('#richtextText').style['border-style'] = this.value;
+      }});
   //
 
 
