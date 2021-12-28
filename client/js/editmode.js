@@ -508,10 +508,10 @@ async function applyEditOptions(widget) {
 }
 
 function editClick(widget) {
-  let loadedAsset = false;
-  let backgroundColor = false;
-  let borderColor = false;
-  let borderStyle = false;
+  loadedAsset = false;
+  backgroundColor = false;
+  borderColor = false;
+  borderStyle = false;
   $('#editWidgetJSON').value = JSON.stringify(widget.state, null, '  ');
   $('#editWidgetJSON').dataset.previousState = $('#editWidgetJSON').value;
 
@@ -1288,11 +1288,11 @@ onLoad(function() {
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
   
   on('[title=richtextbackgroundColor]', 'change' , function(){
-	  backgroundColor = $('[title=richtextbackgroundColor]').value;
+	  backgroundColor = this.value;
 	  $('#richtextText').style['background-color'] = this.value;
   });
   on('[title=richtextborderColor]', 'change' , function(){
-	  borderColor = $('[title=richtextborderColor]').value;
+	  borderColor = this.value;
 	 $('#richtextText').style['border-color'] = this.value;
   });
 on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
