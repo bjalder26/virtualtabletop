@@ -1288,19 +1288,20 @@ onLoad(function() {
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
   
   on('[title=richtextbackgroundColor]', 'change' , function(){
-	  backgroundColor = this.value;
-	  $('#richtextText').style['background-color'] = this.value;
-  });
+     if(validateMode()) {
+       backgroundColor = this.value;
+       $('#richtextText').style['background-color'] = this.value;
+     }});
   on('[title=richtextborderColor]', 'change' , function(){
-	  borderColor = this.value;
-	 $('#richtextText').style['border-color'] = this.value;
-  });
-on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
-	  if(asset) {
-		  loadedAsset = asset;
-		  $('#richtextText').style['background-image'] = `url(${asset})`;
-	  }
-  }));
+    if(validateMode()) {
+      borderColor = this.value;
+      $('#richtextText').style['border-color'] = this.value;
+    }});
+on('[title=richtextImage]', 'click' , function(){if(validateMode()) {uploadAsset().then(function(asset) {
+  if(asset) {
+    loadedAsset = asset;
+    $('#richtextText').style['background-image'] = `url(${asset})`;
+    }})}});
   on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value);
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value);
   on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value);
