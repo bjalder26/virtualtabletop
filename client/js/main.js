@@ -381,13 +381,13 @@ function getBlockNode(node) {
   on('.intLink', 'mousedown', function(e){e.preventDefault();});
 
   //on('[data-command="Clean"]', 'click', function(){if(validateMode()&&confirm('Are you sure?')){oDoc.innerHTML=sDefTxt}});
-  on('[data-command="Image"]', 'click', function(){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}});
-  on('[data-command="Hyperlink"]', 'click', function(){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}); 
-  on('[data-command="ImageUpload"]', 'click', _=>uploadAsset().then(function(asset) {
-	  if(asset) {formatDoc('insertImage',asset)}}));
+  on('[data-command="Image"]', 'click', function(){if(validateMode()){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}}});
+  on('[data-command="Hyperlink"]', 'click', function(){if(validateMode()){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}}); 
+  on('[data-command="ImageUpload"]', 'click', function(){if(validateMode()){uploadAsset().then(function(asset) {if(asset) {formatDoc('insertImage',asset)}})}});
   on('#switchBox', 'change', function(){
 	  setDocMode(this.checked);
   if(this.checked) {
+	    $('#richtextText').style.cssText = '';
 	    $('#richtextText').style.height = 'inherit';
 		$('#richtextText').style.width = 'inherit';
 		$('#richtextText').style['border-style'] = 'none';
@@ -395,18 +395,15 @@ function getBlockNode(node) {
 		$('#richtextText').style['background-image'] = 'none';
   } else {
 	  const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	  let a = widget.get('borderStyle');
-	  let b = widget.get('backgroundColor');
-	  let c = widget.get('image');
-	  let d = $('[title=richtextBorderStyle]').value;
-	  let e = $('[title=richtextbackgroundColor]').value;
-	  let f = $('[title=richtextImage]').value;
-	  let g = loadedAsset ? loadedAsset : widget.get('image');
+	  $('#richtextText').style.cssText = widget.get('css');
 	  $('#richtextText').style.height = $('#richtextHeight').value+"px";
 	  $('#richtextText').style.width = $('#richtextWidth').value+"px";
- 	  $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
-	  $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
-      $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
+	  if(borderStyle || widget.get('borderStyle'))
+ 	    $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
+      if(backgroundColor || widget.get('backgroundColor'))
+	    $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
+      if(loadedAsset || widget.get('image'))
+        $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
   }
   });
 
