@@ -317,7 +317,7 @@ function populateEditOptionsRichtext(widget) {
   $('#richtextBorderWidthNumber').value = widget.borderWidth||0;
   $('#richtextText').style['border-style'] = widget.borderStyle || 'none';
   $('#switchBox').checked = false;
-  $('[title=richtextScale]').checked = false;
+  $('#richtextScale').checked = false;
   initRichtextEditor();
   changeRichTextPreview(widget);
 }
@@ -335,7 +335,7 @@ function changeRichTextPreview(widget){
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
   if(widget.borderStyle)
-    $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value;
+    $('#richtextText').style['border-style'] = widget.borderStyle;
 }
 
 var oDoc, sDefTxt;
@@ -511,6 +511,10 @@ async function applyEditOptions(widget) {
 }
 
 function editClick(widget) {
+	loadedAsset = false;
+	backgroundColor = false;
+	borderColor = false;
+	borderStyle = false;
   $('#editWidgetJSON').value = JSON.stringify(widget.state, null, '  ');
   $('#editWidgetJSON').dataset.previousState = $('#editWidgetJSON').value;
 
@@ -1287,19 +1291,23 @@ onLoad(function() {
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
   
   on('[title=richtextbackgroundColor]', 'change' , function(){
-	  backgroundColor = $('[title=richtextbackgroundColor]').value;
+	  if(validateMode()) {
+	  backgroundColor = this.value;
 	  $('#richtextText').style['background-color'] = this.value;
+	  }
   });
   on('[title=richtextborderColor]', 'change' , function(){
-	  borderColor = $('[title=richtextborderColor]').value;
+	  if(validateMode()) {
+	  borderColor = this.value;
 	 $('#richtextText').style['border-color'] = this.value;
+	  }
   });
-on('[title=richtextImage]', 'click' , _=>uploadAsset().then(function(asset) {
+on('[title=richtextImage]', 'click' , function(){if(validateMode()) {uploadAsset().then(function(asset) {
 	  if(asset) {
 		  loadedAsset = asset;
 		  $('#richtextText').style['background-image'] = `url(${asset})`;
-	  }
-  }));
+}
+})}});
   on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value);
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value);
   on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value);
