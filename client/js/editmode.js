@@ -1,7 +1,3 @@
-let loadedAsset = false;
-let backgroundColor = false;
-let borderColor = false;
-let borderStyle = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
@@ -317,7 +313,7 @@ function populateEditOptionsRichtext(widget) {
   $('#richtextBorderWidthNumber').value = widget.borderWidth||0;
   $('#richtextText').style['border-style'] = widget.borderStyle || 'none';
   $('#switchBox').checked = false;
-  $('[title=richtextScale]').checked = false;
+  $('#richtextScale').checked = false;
 
   initRichtextEditor();
   changeRichTextPreview(widget);
@@ -336,7 +332,7 @@ function changeRichTextPreview(widget){
   $('#richtextText').style.width = $('#richtextWidth').value+"px";
   $('#richtextText').style.padding = $('#richtextPadding').value+"px";
   if(widget.borderStyle)
-    $('#richtextText').style['border-style'] = $('[title=richtextBorderStyle]').value;
+    $('#richtextText').style['border-style'] = widget.borderStyle;
 }
 
 var oDoc, sDefTxt;
@@ -512,6 +508,10 @@ async function applyEditOptions(widget) {
 }
 
 function editClick(widget) {
+  let loadedAsset = false;
+  let backgroundColor = false;
+  let borderColor = false;
+  let borderStyle = false;
   $('#editWidgetJSON').value = JSON.stringify(widget.state, null, '  ');
   $('#editWidgetJSON').dataset.previousState = $('#editWidgetJSON').value;
 
