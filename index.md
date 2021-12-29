@@ -1,1 +1,1 @@
-<meta http-equiv="refresh" content="0; URL=/server.mjs" />
+<meta http-equiv="refresh" content="0; URL=/client/room.html" />
