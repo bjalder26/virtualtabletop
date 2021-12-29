@@ -1,3 +1,7 @@
+let loadedAsset = false;
+let backgroundColor = false;
+let borderColor = false;
+let borderStyle = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
