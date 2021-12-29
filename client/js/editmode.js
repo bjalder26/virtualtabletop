@@ -1,7 +1,3 @@
-let loadedAsset = false;
-let backgroundColor = false;
-let borderColor = false;
-let borderStyle = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
@@ -511,10 +507,10 @@ async function applyEditOptions(widget) {
 }
 
 function editClick(widget) {
-	loadedAsset = false;
-	backgroundColor = false;
-	borderColor = false;
-	borderStyle = false;
+  loadedAsset = false;
+  backgroundColor = false;
+  borderColor = false;
+  borderStyle = false;
   $('#editWidgetJSON').value = JSON.stringify(widget.state, null, '  ');
   $('#editWidgetJSON').dataset.previousState = $('#editWidgetJSON').value;
 
