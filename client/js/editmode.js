@@ -1,3 +1,7 @@
+let loadedAsset = false;
+let backgroundColor = false;
+let borderColor = false;
+let borderStyle = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
@@ -299,10 +303,25 @@ function applyEditOptionsPiece(widget) {
 }
 
 //richtext functions
+String.prototype.replaceAt = function(index, replacement) {
+  return this.substr(0, index) + replacement + this.substr(index+1, this.length);}
+
+function replaceSpaces(string, i, inside){
+if(string[i] == '<') inside = true; 
+if(string[i] == '>') inside = false;
+if(string[i]==' ' && inside==false) {string = string.replaceAt(i, '&nbsp;');}
+i = i+1;
+if(i < string.length) string = replaceSpaces(string, i, inside);
+return string
+}
+
 function populateEditOptionsRichtext(widget) {
+  let richtextText = widget.text.replaceAll('\n', '<br>')|| "~ no text found ~";
+  richtextText = replaceSpaces(richtextText, 0, false);
+
   $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
   $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
-  $('#richtextText').innerHTML = widget.text.replaceAll('\n', '<br>')|| "~ no text found ~";
+  $('#richtextText').innerHTML = richtextText;
   $('#richtextPadding').value = widget.padding||5;
   $('#richtextPaddingNumber').value = widget.padding||5;
   $('#richtextWidth').value = widget.width||100;
