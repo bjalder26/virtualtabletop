@@ -376,7 +376,8 @@ function validateMode() {
 function setDocMode(bToSource) {
   var oContent;
   if (bToSource) {
-    oContent = document.createTextNode(oDoc.innerHTML);
+	const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	oContent = document.createTextNode(widget.get('text'));
     oDoc.innerHTML = "";
     var oPre = document.createElement("pre");
     oDoc.contentEditable = false;
@@ -391,7 +392,7 @@ function setDocMode(bToSource) {
     } else {
       oContent = document.createRange();
       oContent.selectNodeContents(oDoc.firstChild);
-      oDoc.innerHTML = oContent.toString();
+      oDoc.innerHTML = replaceSpaces(oContent.toString(), 0, false);
     }
     oDoc.contentEditable = true;
   }
