@@ -179,7 +179,7 @@ img.intLink { border: 0; }
   cursor: pointer;
 }
 #sourceText {
-  white-space: normal;
+  white-space: pre-wrap;
 }
 .richtextToolbar{
   display: flex;
