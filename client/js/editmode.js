@@ -376,8 +376,8 @@ function validateMode() {
 function setDocMode(bToSource) {
   var oContent;
   if (bToSource) {
-	const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
-	oContent = document.createTextNode(widget.get('text'));
+    const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  oContent = document.createTextNode(widget.get('text'));
     oDoc.innerHTML = "";
     var oPre = document.createElement("pre");
     oDoc.contentEditable = false;
