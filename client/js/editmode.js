@@ -181,7 +181,7 @@ function applyEditOptionsCanvas(widget) {
   }
 }
 
-// deck functions
+//deck functions
 async function applyEditOptionsDeck(widget) {
   for(const type of $a('#cardTypesList tr.cardType')) {
     const id = $('.id', type).value;
@@ -307,12 +307,12 @@ String.prototype.replaceAt = function(index, replacement) {
   return this.substr(0, index) + replacement + this.substr(index+1, this.length);}
 
 function replaceSpaces(string, i, inside){
-if(string[i] == '<') inside = true; 
-if(string[i] == '>') inside = false;
-if(string[i]==' ' && inside==false) {string = string.replaceAt(i, '&nbsp;');}
-i = i+1;
-if(i < string.length) string = replaceSpaces(string, i, inside);
-return string
+  if(string[i] == '<') inside = true;
+  if(string[i] == '>') inside = false;
+  if(string[i]==' ' && inside==false) {string = string.replaceAt(i, '&nbsp;');}
+  i = i+1;
+  if(i < string.length) string = replaceSpaces(string, i, inside);
+  return string
 }
 
 function populateEditOptionsRichtext(widget) {
@@ -1300,30 +1300,148 @@ onLoad(function() {
   });
   loadComponents(editOverlayApp);
   vmEditOverlay = editOverlayApp.mount("#editOverlayVue");
+  
+  function placeTags(tag, passedClass){
+    var selection, range;
+    if (document.getSelection) {
+      selection = document.getSelection();
+      var rep = selection.toString();
+      range = selection.getRangeAt(0);
+      range.deleteContents();
+      var node = document.createElement(tag);
+      node.setAttribute('class', passedClass);
+      node.innerHTML = rep;
+      range.insertNode(node);
+    }
+  }
 
+  function setHTML(attr, value) {
+    const selection = document.getSelection();
+    if (selection != '') {
+      document.execCommand('insertHTML', false, `<span ${attr}='${value}'>${selection}</span>`);
+    } else {
+      var node = document.getSelection().anchorNode;
+      let blockNode = getBlockNode(node);
+      console.log(blockNode.nodeName);
+      if (blockNode.id == 'richtextText') {
+        console.log('rtt');
+        let range = new Range();
+        range.setStart(richtextText, 0);
+        range.setEnd(richtextText, 1);
+        var newParent = document.createElement('span');
+        var attribute = document.createAttribute(attr);
+        attribute.value = value;
+        newParent.setAttributeNode(attribute);
+        range.surroundContents(newParent);
+        console.log(range);
+      } else {
+        var attribute = document.createAttribute(attr);
+        attribute.value = value;
+        blockNode.setAttributeNode(attribute);
+      }
+    }
+  }
+  
+  function getBlockNode(node) {
+    let nodeName = node.nodeName;
+    const blockNodeArray = ['BLOCKQUOTE', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'OL', 'P', 'PRE', 'UL'];
+    if (!blockNodeArray.includes(node.nodeName)) {
+      if (node.parentElement != 'undefined' || node.parentElement != null)
+        node = getBlockNode(node.parentElement);
+    }
+    return node
+  }
+  
+  // richtext editor
+  on('#richtextWidth', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style.width = this.value+"px";
+  });
+  on('#richtextHeight', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style.height = this.value+"px";
+  });
+  on('#richtextPadding', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style.padding = this.value+"px";
+  });
+  on('#richtextBorderWidth', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style['border-width'] = this.value+"px";
+  });
+
+  on('[title=richtextbackgroundColor]', 'change' , function(){
+	  if(validateMode()) {
+      backgroundColor = this.value;
+      $('#richtextText').style['background-color'] = this.value;
+	  }});
+  on('[title=richtextborderColor]', 'change' , function(){
+	  if(validateMode()) {
+	    borderColor = this.value;
+	    $('#richtextText').style['border-color'] = this.value;
+	  }});
+  on('[title=richtextImage]', 'click' , function(){if(validateMode()) {uploadAsset().then(function(asset) {
+	  if(asset) {
+		  loadedAsset = asset;
+		  $('#richtextText').style['background-image'] = `url(${asset})`;
+    }})}});
+  on('[title=richtextBorderStyle]', 'input' , function(){
+    if(validateMode()) {
+      borderStyle = $('[title=richtextBorderStyle]').value;
+      $('#richtextText').style['border-style'] = this.value;
+    }});
+
+  on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontnames"]', 'change', function() {if(validateMode())setHTML('class', this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
+  
+  on('.intLink.command', 'click', function(e){formatDoc(this.dataset.command, this.dataset.value);});
+  on('.intLink', 'mousedown', function(e){e.preventDefault();});
+  
+  on('[data-command="Image"]', 'click', function(){if(validateMode()){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}}});
+  on('[data-command="ImageUpload"]', 'click', function(){if(validateMode()){uploadAsset().then(function(asset) {if(asset) {formatDoc('insertImage',asset)}})}});
+  on('[data-command="Hyperlink"]', 'click', function(){if(validateMode()){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}}); 
+
+  on('#switchBox', 'change', function(){
+    setDocMode(this.checked);
+    if(this.checked) {
+      $('#richtextText').style.cssText = '';
+      $('#richtextText').style.height = 'inherit';
+      $('#richtextText').style.width = 'inherit';
+      $('#richtextText').style['border-style'] = 'none';
+      $('#richtextText').style['background-color'] = 'white';
+      $('#richtextText').style['background-image'] = 'none';
+    } else {
+      const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+      $('#richtextText').style.cssText = widget.get('css');
+      $('#richtextText').style.height = $('#richtextHeight').value+"px";
+      $('#richtextText').style.width = $('#richtextWidth').value+"px";
+      if(borderStyle || widget.get('borderStyle'))
+        $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
+      if(backgroundColor || widget.get('backgroundColor'))
+        $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
+      if(loadedAsset || widget.get('image'))
+        $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
+    }});  
+  on('#richtextScale', 'change', function(){
+    if(this.checked) {
+      var cssText = document.getElementsByTagName('html')[0].style.cssText
+      var startPos = cssText.indexOf('--scale:') + 8;
+      var endPos = cssText.indexOf(';',startPos);
+      var roomScale = cssText.substring(startPos,endPos)
+      $('#richtextText').style.transform = `scale(${roomScale})`;
+    } else {
+      $('#richtextText').style.transform = 'scale(1.0)';
+    }});
+  //
+    
   on('#labelWidthNumber', 'input', e=>$('#labelWidth').value=e.target.value);
   on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value);
   on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value);
   on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
   
-  on('[title=richtextbackgroundColor]', 'change' , function(){
-	  if(validateMode()) {
-	  backgroundColor = this.value;
-	  $('#richtextText').style['background-color'] = this.value;
-	  }
-  });
-  on('[title=richtextborderColor]', 'change' , function(){
-	  if(validateMode()) {
-	  borderColor = this.value;
-	 $('#richtextText').style['border-color'] = this.value;
-	  }
-  });
-on('[title=richtextImage]', 'click' , function(){if(validateMode()) {uploadAsset().then(function(asset) {
-	  if(asset) {
-		  loadedAsset = asset;
-		  $('#richtextText').style['background-image'] = `url(${asset})`;
-}
-})}});
   on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value);
   on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value);
   on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value);
