@@ -12,13 +12,13 @@ export class Richtext extends Widget {
 
       backgroundColor: null,
       borderColor: 'transparent',
-	  borderStyle: 'none',
-	  borderWidth: 0,
-	  color: 'black',
-	  image: '',
-	  padding: null,
-	  svgReplaces: {},
-	  text: '',
+      borderStyle: 'none',
+      borderWidth: 0,
+      color: 'black',
+      image: '',
+      padding: null,
+      svgReplaces: {},
+      text: '',
       textColor: 'black'
     });
 
@@ -31,9 +31,9 @@ export class Richtext extends Widget {
       var richtext = this.get('text').toString()
       .replace(/=/gimu, '&#61')
       .replace(/style&#61/gmi, 'style=')
-	  .replace(/src&#61/gmi, 'src=')
-	  .replace(/height&#61/gmi, 'height=')
-	  .replace(/width&#61/gmi, 'width=')
+      .replace(/src&#61/gmi, 'src=')
+      .replace(/height&#61/gmi, 'height=')
+      .replace(/width&#61/gmi, 'width=')
       .replace(/class&#61/gmi, 'class=')
       .replace(/color&#61/gmi, 'color=')
       .replace(/face&#61/gmi, 'face=')
