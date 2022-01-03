@@ -8,57 +8,10 @@
   border-width: var(--borderWidth);
   overflow: auto;
   padding: var(--padding);
+  
   --wcMain: null;
   --wcBorder: null;
   --padding: 0px;
   --borderStyle: none;
   --borderWidth: 0px;
-}
-
-#richtextText{
-  box-sizing: border-box;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 2px black;
-  overflow: auto;
-  transform-origin: top left;
-  transition: 500ms;
-}
-
-#richtextText a:link {
-  color: blue;
-  background-color: transparent;
-  text-decoration: underline;
-}
-
-#richtextText a:visited {
-  color: purple;
-  background-color: transparent;
-  text-decoration: underline;
-}
-
-#richtextText a:active {
-  color: red;
-  background-color: transparent;
-  text-decoration: underline;
-}
-
-#richtextText a:link {
-  color: blue;
-  background-color: transparent;
-  text-decoration: underline;
-}
-
-#richtextText a:visited {
-  color: purple;
-  background-color: transparent;
-  text-decoration: underline;
-}
-
-#richtextText a:active {
-  color: red;
-  background-color: transparent;
-  text-decoration: underline;
 }
