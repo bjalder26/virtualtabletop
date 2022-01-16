@@ -1,0 +1,17 @@
+.widget.richtext {
+  color: var(--wcFont);
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: var(--wcMain);
+  border-color: var(--wcBorder);
+  border-style: var(--borderStyle);
+  border-width: var(--borderWidth);
+  overflow: auto;
+  padding: var(--padding);
+  
+  --wcMain: null;
+  --wcBorder: null;
+  --padding: 0px;
+  --borderStyle: none;
+  --borderWidth: 0px;
+}

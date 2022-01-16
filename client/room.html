@@ -108,6 +108,127 @@
           <label for="labelHeight"> Height: </label><input type="range" min=0 max=1000 value=20  step=10 id="labelHeight"><input type="text" id="labelHeightNumber" value=20><br/><br/>
           <input type="checkbox" id="labelEditable"><label for="labelEditable">Editable in play mode</label>
         </div>
+        <div class="richtextEdit">
+          <h1>Edit Rich Text</h1>
+          <label for="richtextWidth"> Width: &#160;</label><input type="range" min=0 max=1600 value=100  step=10 id="richtextWidth"><input type="text" id="richtextWidthNumber" value=100><br/>
+          <label for="richtextHeight"> Height: </label><input type="range" min=0 max=1000 value=20  step=10 id="richtextHeight"><input type="text" id="richtextHeightNumber" value=20><br/>
+          <label for="richtextPadding"> Padding: </label><input type="range" min=0 max=50 value=20  step=1 id="richtextPadding"><input type="text" id="richtextPaddingNumber" value=5><br/>
+		  <label for="richtextBorderWidth"> Border Width: </label><input type="range" min=0 max=20 value=0  step=1 id="richtextBorderWidth"><input type="text" id="richtextBorderWidthNumber" value=0><p/>
+          <label for="richtextImage">Background Image: </label><button type="text" title="richtextImage"><span class="icon">upload</span> Upload</button>
+		  <label for="richtextbackgroundColor">Background Color: </label><input type="color" title="richtextbackgroundColor">
+          <label for="richtextborderColor">Border Color: </label><input type="color" title="richtextborderColor">
+		  <label for="richtextBorderStyle">&nbsp;</label>
+		  <select title="richtextBorderStyle">
+              <option class="heading" selected>- Border Style -</option>
+              <option value="none">None</option>
+              <option value="dashed">Dashed</option>
+              <option value="dotted">Dotted</option>
+              <option value="double">Double</option>
+              <option value="groove">Groove</option>
+              <option value="hidden">Hidden</option>
+              <option value="inset">Inset</option>
+              <option value="outset">Outset</option>
+              <option value="ridge">Ridge</option>
+              <option value="solid">Solid</option>
+            </select><br/>
+          <input type="hidden" name="myDoc">
+          <div class="richtextToolbar" id="toolBar1">
+            <span class="material-icons" title="Text formatting">text_fields</span>
+            <select title="Formatblock">
+              <option selected>- Text Block -</option>
+              <option value="h1">Title 1 &lt;h1&gt;</option>
+              <option value="h2">Title 2 &lt;h2&gt;</option>
+              <option value="h3">Title 3 &lt;h3&gt;</option>
+              <option value="h4">Title 4 &lt;h4&gt;</option>
+              <option value="h5">Title 5 &lt;h5&gt;</option>
+              <option value="h6">Subtitle &lt;h6&gt;</option>
+              <option value="p">Paragraph &lt;p&gt;</option>
+              <option value="pre">Preformatted &lt;pre&gt;</option>
+            </select>
+            <select title="Fontnames">
+              <option class="heading" selected>- Font -</option>
+              <option value="font-standard">Roboto (standard)</option>
+              <option value="font-condensed">Condensed</option>
+              <option value="font-serif">Serif</option>
+              <option value="font-handwriting">Handwriting</option>
+              <option value="font-handwriting-casual">Handwriting Casual</option>
+              <option value="font-fantasy">Fantasy</option>
+              <option value="font-horror">Horror</option>
+              <option value="font-tech">Tech</option>
+              <option value="font-vtt-symbols">VTT Symbols</option>
+              <option value="font-material-icons">Material Icons</option>
+            </select>
+            <select title="Fontsizes">
+              <option class="heading" selected>- Size -</option>
+              <option value="1">Very small</option>
+              <option value="2">A bit small</option>
+              <option value="3">Normal</option>
+              <option value="4">Medium-large</option>
+              <option value="5">Big</option>
+              <option value="6">Very big</option>
+              <option value="7">Maximum</option>
+            </select>
+            <select title="Forecolor">
+              <option class="heading" selected>- Color -</option>
+              <option value="red">Red</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="violet">Violet</option>
+              <option value="pink">Pink</option>
+              <option value="black">Black</option>
+              <option value="brown">Brown</option>
+              <option value="gray">Gray</option>
+              <option value="white">White</option>
+            </select>
+            <select title="Backcolor">
+              <option class="heading" selected>- Background Color -</option>
+              <option value="red">Red</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="violet">Violet</option>
+              <option value="pink">Pink</option>
+              <option value="black">Black</option>
+              <option value="brown">Brown</option>
+              <option value="gray">Gray</option>
+              <option value="white">White</option>
+            </select>
+          </div>
+          <div class="richtextToolbar" id="toolBar2">
+            <span class="material-icons intLink command" data-command="removeFormat" title="Remove formatting">restart_alt</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="bold" title="Bold">format_bold</span>
+            <span class="material-icons intLink command" data-command="italic" title="Italic">format_italic</span>
+            <span class="material-icons intLink command" data-command="underline" title="Underline">format_underlined</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="justifyleft" title="Left align">format_align_left</span>
+            <span class="material-icons intLink command" data-command="justifycenter" title="Center align">format_align_center</span>
+            <span class="material-icons intLink command" data-command="justifyright" title="Right align">format_align_right</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="insertorderedlist" title="Numbered list">format_list_numbered</span>
+            <span class="material-icons intLink command" data-command="insertunorderedlist" title="Dotted list">format_list_bulleted</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="formatblock" data-value="blockquote" title="Quote">format_quote</span>
+            <span class="material-icons intLink command" data-command="outdent" title="Delete indentation">format_indent_decrease</span>
+            <span class="material-icons intLink command" data-command="indent" title="Add indentation">format_indent_increase</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink command" data-command="superscript" title="Superscript">superscript</span>
+            <span class="material-icons intLink command" data-command="subscript" title="Subscript">subscript</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink" data-command="Image" title="Add Image" >image</span>
+            <span class="material-icons intLink" data-command="ImageUpload" title="Upload Image" >upload</span>
+            <span class="spacer">&nbsp</span>
+            <span class="material-icons intLink" data-command="Hyperlink" title="Add link" >link</span>
+          </div>
+          <input type="checkbox" name="switchMode" id="switchBox" /> <label for="switchBox">Show raw HTML</label>
+          <input type="checkbox" name="richtextScale" id="richtextScale"/> <label for="richtextScale">Show at room scale</label>
+          <div id="richtextText" contenteditable="true" style="width: 100%;height:500px;border:1px solid gray;"></div>
+        </div>
         <div class="pieceEdit">
           <h1>Edit game piece</h1>
           <h3>Select type:</h3>
@@ -201,7 +322,7 @@
       </div>
       <div id="playerList">
         <template id="template-playerlist-entry" type="text/template">
-          <input type="color" class="teamColor"></span> <input class="playerName" />
+          <input type="color" class="teamColor"> <input class="playerName" />
         </template>
         <label class="me ui-line" data-label="Me »"> </label>
         <label class="otherPlayers ui-line" data-label="Other Players »"> </label>

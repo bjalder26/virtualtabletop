@@ -49,6 +49,8 @@ export function addWidget(widget, instance) {
     w = new Deck(id);
   } else if(widget.type == 'holder') {
     w = new Holder(id);
+  } else if(widget.type == 'richtext') {
+    w = new Richtext(id);
   } else if(widget.type == 'spinner') {
     w = new Spinner(id);
   } else if(widget.type == 'seat') {

@@ -1,3 +1,7 @@
+let loadedAsset = false;
+let backgroundColor = false;
+let borderColor = false;
+let borderStyle = false;
 let edit = false;
 
 function generateUniqueWidgetID() {
@@ -27,9 +31,9 @@ function populateEditOptionsBasic(widget) {
   $('#basicImage').value = widget.image || "~ no image found ~";
 
   if (widget.layer < 1){
-    $('#basicTypeBoard').checked = true
+    $('#basicTypeBoard').checked = true;
   } else {
-    $('#basicTypeToken').checked = true
+    $('#basicTypeToken').checked = true;
   }
 
   $('#basicWidth').value = widget.width||100;
@@ -79,8 +83,7 @@ function populateEditOptionsButton(widget) {
   $('#buttonImage').value = widget.image || "~ no image found ~";
   $('#buttonColorMain').value = widget.backgroundColor || "#1f5ca6";
   $('#buttonColorBorder').value = widget.borderColor || "#0d2f5e";
-  $('#buttonColorText').value = widget.textColor || "#ffffff"
-
+  $('#buttonColorText').value = widget.textColor || "#ffffff";
 
   $('#buttonText').style = "display: inline";
   $('[for=buttonText]').style = "display: inline";
@@ -128,7 +131,7 @@ function applyEditOptionsButton(widget) {
 
 //canvas functions
 function populateEditOptionsCanvas(widget) {
-  const cm = widget.colorMap || Canvas.defaultColors
+  const cm = widget.colorMap || Canvas.defaultColors;
   const ctx = document.createElement('canvas').getContext('2d');
 
   for(let i=0; i<10; ++i) {
@@ -266,11 +269,11 @@ function applyEditOptionsLabel(widget) {
 function populateEditOptionsPiece(widget) {
   $('#pieceColor').value = widget.color || "black";
   if (widget.classes == "classicPiece") {
-    $('#pieceTypeClassic').checked = true
+    $('#pieceTypeClassic').checked = true;
   } else if (widget.classes == "checkersPiece" || widget.classes == "checkersPiece crowned") {
-    $('#pieceTypeChecker').checked = true
+    $('#pieceTypeChecker').checked = true;
   } else if (widget.classes == "pinPiece") {
-    $('#pieceTypePin').checked = true
+    $('#pieceTypePin').checked = true;
   }
 }
 
@@ -297,6 +300,126 @@ function applyEditOptionsPiece(widget) {
   }
 
   widget.color = $('#pieceColor').value;
+}
+
+//richtext functions
+String.prototype.replaceAt = function(index, replacement) {
+  return this.substr(0, index) + replacement + this.substr(index+1, this.length);}
+
+function replaceSpaces(string, i, inside){
+  if(string[i] == '<') inside = true;
+  if(string[i] == '>') inside = false;
+  if(string[i]==' ' && inside==false) {string = string.replaceAt(i, '&nbsp;');}
+  i = i+1;
+  if(i < string.length) string = replaceSpaces(string, i, inside);
+  return string
+}
+
+function populateEditOptionsRichtext(widget) {
+  let richtextText = widget.text.replaceAll('\n', '<br>')|| "~ no text found ~";
+  richtextText = replaceSpaces(richtextText, 0, false);
+
+  $('[title=richtextbackgroundColor]').value = colorNameToHex(widget.backgroundColor)||"#ffffff";
+  $('[title=richtextborderColor]').value = colorNameToHex(widget.borderColor)||"#000000";
+  $('#richtextText').innerHTML = richtextText;
+  $('#richtextPadding').value = widget.padding||5;
+  $('#richtextPaddingNumber').value = widget.padding||5;
+  $('#richtextWidth').value = widget.width||100;
+  $('#richtextHeight').value = widget.height||100;
+  $('#richtextWidthNumber').value = widget.width||100;
+  $('#richtextHeightNumber').value = widget.height||100;
+  $('#richtextBorderWidth').value = widget.borderWidth||0;
+  $('#richtextBorderWidthNumber').value = widget.borderWidth||0;
+  $('#richtextText').style['border-style'] = widget.borderStyle || 'none';
+  $('#switchBox').checked = false;
+  $('#richtextScale').checked = false;
+  initRichtextEditor();
+  changeRichTextPreview(widget);
+}
+
+function changeRichTextPreview(widget){
+  $('#richtextText').style.cssText = widget.css;
+  if(widget.backgroundColor)
+    $('#richtextText').style['background-color'] = colorNameToHex(widget.backgroundColor);
+  if(widget.borderColor)
+    $('#richtextText').style['border-color'] = colorNameToHex(widget.borderColor);
+  $('#richtextText').style['border-width'] = $('#richtextBorderWidth').value+"px";
+  if(widget.image)
+    $('#richtextText').style['background-image']  = `url(${widget.image})`;
+  $('#richtextText').style.height = $('#richtextHeight').value+"px";
+  $('#richtextText').style.width = $('#richtextWidth').value+"px";
+  $('#richtextText').style.padding = $('#richtextPadding').value+"px";
+  if(widget.borderStyle)
+    $('#richtextText').style['border-style'] = widget.borderStyle;
+}
+
+var oDoc, sDefTxt;
+
+function initRichtextEditor() {
+  oDoc = document.getElementById("richtextText");
+  sDefTxt = oDoc.innerHTML;
+  if (document.getElementById("switchBox").checked) { setDocMode(true); }
+
+}
+
+function formatDoc(sCmd, sValue) {
+  if (validateMode()) { document.execCommand(sCmd, false, sValue); oDoc.focus(); }
+}
+
+function validateMode() {
+  if (!document.getElementById("switchBox").checked) { return true ; }
+  alert("Uncheck \"Show HTML\".");
+  oDoc.focus();
+  return false;
+}
+
+function setDocMode(bToSource) {
+  var oContent;
+  if (bToSource) {
+    const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	  oContent = document.createTextNode(widget.get('text'));
+    oDoc.innerHTML = "";
+    var oPre = document.createElement("pre");
+    oDoc.contentEditable = false;
+    oPre.id = "sourceText";
+    oPre.contentEditable = true;
+    oPre.appendChild(oContent);
+    oDoc.appendChild(oPre);
+    document.execCommand("defaultParagraphSeparator", false, "div");
+  } else {
+    if (document.all) {
+      oDoc.innerHTML = oDoc.innerText;
+    } else {
+      oContent = document.createRange();
+      oContent.selectNodeContents(oDoc.firstChild);
+      oDoc.innerHTML = replaceSpaces(oContent.toString(), 0, false);
+    }
+    oDoc.contentEditable = true;
+  }
+  oDoc.focus();
+}
+
+var commandRelation = {};
+
+function applyEditOptionsRichtext(widget) {
+  widget.text = $('#richtextText').innerHTML.replaceAll('&nbsp;', ' ');
+  applyWidthHeight(widget, $('#richtextWidthNumber').value, 'width');
+  applyWidthHeight(widget, $('#richtextHeightNumber').value, 'height');
+  applyWidthHeight(widget, $('#richtextPaddingNumber').value, 'padding');
+  applyWidthHeight(widget, $('#richtextBorderWidth').value, 'borderWidth');
+}
+
+function colorNameToHex(color){
+  if(color) {
+    if(color.includes('#')) {
+		if(color.length == 4)
+			color = '#'+color[1]+color[1]+color[2]+color[2]+color[3]+color[3];
+      return color;
+	}
+    var ctx = document.createElement('canvas').getContext('2d');
+    ctx.fillStyle = color;
+    return ctx.fillStyle;
+  } else { return null;}
 }
 
 //seat functions
@@ -338,8 +461,8 @@ function applyEditOptionsSpinner(widget) {
 function populateEditOptionsTimer(widget) {
   $('#timerCountdown').checked = widget.countdown;
   if (widget.end || widget.end==0){
-    var duration = Math.abs(widget.start-widget.end)
-    console.log(duration,Math.floor(duration / 60000),Math.floor((duration % 60000)/1000))
+    var duration = Math.abs(widget.start-widget.end);
+    console.log(duration,Math.floor(duration / 60000),Math.floor((duration % 60000)/1000));
     $('#timerMinutes').value = Math.floor(duration / 60000) || 0;
     $('#timerSeconds').value = Math.floor((duration % 60000)/1000);
   } else {
@@ -352,18 +475,18 @@ function populateEditOptionsTimer(widget) {
 function applyEditOptionsTimer(widget) {
   widget.countdown = $('#timerCountdown').checked;
   if ($('#timerMinutes').value == "--" && $('#timerSeconds').value == "--"){
-    delete widget.start
-    delete widget.end
+    delete widget.start;
+    delete widget.end;
   } else if ($('#timerCountdown').checked) {
-    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000
-    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000
+    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000;
+    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000;
     widget.end = 0;
-    widget.start = minutes + seconds
+    widget.start = minutes + seconds;
   } else {
-    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000
-    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000
+    var minutes = $('#timerMinutes').value == "--" ? 0 : $('#timerMinutes').value*60000;
+    var seconds = $('#timerSeconds').value == "--" ? 0 : $('#timerSeconds').value*1000;
     widget.end = minutes + seconds;
-    widget.start = 0
+    widget.start = 0;
   }
 
 
@@ -393,6 +516,8 @@ async function applyEditOptions(widget) {
     applyEditOptionsLabel(widget);
   if(type == 'piece')
     applyEditOptionsPiece(widget);
+  if(type == 'richtext')
+    applyEditOptionsRichtext(widget);
   if(type == 'seat')
     applyEditOptionsSeat(widget);
   if(type == 'spinner')
@@ -402,6 +527,10 @@ async function applyEditOptions(widget) {
 }
 
 function editClick(widget) {
+  loadedAsset = false;
+  backgroundColor = false;
+  borderColor = false;
+  borderStyle = false;
   $('#editWidgetJSON').value = JSON.stringify(widget.state, null, '  ');
   $('#editWidgetJSON').dataset.previousState = $('#editWidgetJSON').value;
 
@@ -418,12 +547,14 @@ function editClick(widget) {
 
   typeSpecific.style.display = 'block';
 
-  vmEditOverlay.selectedWidget = widget
+  vmEditOverlay.selectedWidget = widget;
 
   if(type == 'basic')
     populateEditOptionsBasic(widget.state);
   if(type == 'button')
     populateEditOptionsButton(widget.state);
+  if(type == 'richtext')
+    populateEditOptionsRichtext(widget.state);
   if(type == 'canvas')
     populateEditOptionsCanvas(widget.state);
   if(type == 'holder')
@@ -585,6 +716,7 @@ function addCompositeWidgetToAddWidgetOverlay(widgetsToAdd, onClick) {
     if(wi.type == 'holder') w = new Holder(wi.id);
     if(wi.type == 'label')  w = new Label(wi.id);
     if(wi.type == 'pile')   w = new Pile(wi.id);
+    if(wi.type == 'richtext')   w = new Richtext(wi.id);
     if(wi.type == 'timer')  w = new Timer(wi.id);
     widgets.set(wi.id, w);
     w.applyDelta(wi);
@@ -754,6 +886,14 @@ function populateAddWidgetOverlay() {
   });
 
   // Populate the Decorative panel in the add widget overlay
+  addWidgetToAddWidgetOverlay(new Richtext('add-richtext'), {
+    type: 'richtext',
+    text: '<span>&nbsp;</span><span style="line-height:30px;font-size:30px;"><b class="font-fantasy">R</b><em style="color:red">i</em>c<span style="color:green" class="font-horror">h</span><span class="font-material-icons">add</span><span style="background-color:yellow;">e<span class="font-tech">x</span></span><sup>t</sup></span>',
+    height: 60,
+    width: 200,
+    x: 1000,
+    y: 200
+  });
   addWidgetToAddWidgetOverlay(new Label('add-label'), {
     type: 'label',
     text: 'Label',
@@ -862,8 +1002,17 @@ async function updateWidget(currentState, oldState, applyChangesFromUI) {
 }
 
 async function onClickUpdateWidget(applyChangesFromUI) {
+  if (document.getElementById("switchBox").checked) { setDocMode(false); }
   await updateWidget($('#editWidgetJSON').value, $('#editWidgetJSON').dataset.previousState, applyChangesFromUI);
-
+	const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+	if(backgroundColor)
+		widget.set('backgroundColor', backgroundColor);
+	if(borderColor)
+		widget.set('borderColor', borderColor);
+    if(loadedAsset)
+		widget.set('image', loadedAsset);
+	if(borderStyle)
+		widget.set('borderStyle', borderStyle);
   showOverlay();
 }
 
@@ -1151,16 +1300,161 @@ onLoad(function() {
   });
   loadComponents(editOverlayApp);
   vmEditOverlay = editOverlayApp.mount("#editOverlayVue");
+  
+  function placeTags(tag, passedClass){
+    var selection, range;
+    if (document.getSelection) {
+      selection = document.getSelection();
+      var rep = selection.toString();
+      range = selection.getRangeAt(0);
+      range.deleteContents();
+      var node = document.createElement(tag);
+      node.setAttribute('class', passedClass);
+      node.innerHTML = rep;
+      range.insertNode(node);
+    }
+  }
 
-  on('#labelWidthNumber', 'input', e=>$('#labelWidth').value=e.target.value)
-  on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value)
-  on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value)
-  on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value)
+  function setHTML(attr, value) {
+    const selection = document.getSelection();
+    if (selection != '') {
+      document.execCommand('insertHTML', false, `<span ${attr}='${value}'>${selection}</span>`);
+    } else {
+      var node = document.getSelection().anchorNode;
+      let blockNode = getBlockNode(node);
+      console.log(blockNode.nodeName);
+      if (blockNode.id == 'richtextText') {
+        console.log('rtt');
+        let range = new Range();
+        range.setStart(richtextText, 0);
+        range.setEnd(richtextText, 1);
+        var newParent = document.createElement('span');
+        var attribute = document.createAttribute(attr);
+        attribute.value = value;
+        newParent.setAttributeNode(attribute);
+        range.surroundContents(newParent);
+        console.log(range);
+      } else {
+        var attribute = document.createAttribute(attr);
+        attribute.value = value;
+        blockNode.setAttributeNode(attribute);
+      }
+    }
+  }
+  
+  function getBlockNode(node) {
+    let nodeName = node.nodeName;
+    const blockNodeArray = ['BLOCKQUOTE', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'LI', 'OL', 'P', 'PRE', 'UL'];
+    if (!blockNodeArray.includes(node.nodeName)) {
+      if (node.parentElement != 'undefined' || node.parentElement != null)
+        node = getBlockNode(node.parentElement);
+    }
+    return node
+  }
+  
+  // richtext editor
+  on('#richtextWidth', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style.width = this.value+"px";
+  });
+  on('#richtextHeight', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style.height = this.value+"px";
+  });
+  on('#richtextPadding', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style.padding = this.value+"px";
+  });
+  on('#richtextBorderWidth', 'change', function(){
+    if(validateMode())
+      $('#richtextText').style['border-width'] = this.value+"px";
+  });
 
-  on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value)
-  on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value)
-  on('#basicHeightNumber', 'input', e=>$('#basicHeight').value=e.target.value)
-  on('#basicHeight', 'input', e=>$('#basicHeightNumber').value=e.target.value)
+  on('[title=richtextbackgroundColor]', 'change' , function(){
+	  if(validateMode()) {
+      backgroundColor = this.value;
+      $('#richtextText').style['background-color'] = this.value;
+	  }});
+  on('[title=richtextborderColor]', 'change' , function(){
+	  if(validateMode()) {
+	    borderColor = this.value;
+	    $('#richtextText').style['border-color'] = this.value;
+	  }});
+  on('[title=richtextImage]', 'click' , function(){if(validateMode()) {uploadAsset().then(function(asset) {
+	  if(asset) {
+		  loadedAsset = asset;
+		  $('#richtextText').style['background-image'] = `url(${asset})`;
+    }})}});
+  on('[title=richtextBorderStyle]', 'input' , function(){
+    if(validateMode()) {
+      borderStyle = $('[title=richtextBorderStyle]').value;
+      $('#richtextText').style['border-style'] = this.value;
+    }});
+
+  on('[title="Formatblock"]', 'change', function(){formatDoc('formatblock',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontnames"]', 'change', function() {if(validateMode())setHTML('class', this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Fontsizes"]', 'change', function(){formatDoc('fontsize',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Forecolor"]', 'change', function(){formatDoc('forecolor',this[this.selectedIndex].value);this.selectedIndex=0;});
+  on('[title="Backcolor"]', 'change', function(){formatDoc('backcolor',this[this.selectedIndex].value);this.selectedIndex=0;});
+  
+  on('.intLink.command', 'click', function(e){formatDoc(this.dataset.command, this.dataset.value);});
+  on('.intLink', 'mousedown', function(e){e.preventDefault();});
+  
+  on('[data-command="Image"]', 'click', function(){if(validateMode()){var sImg=prompt('Enter the image URL here','https:\/\/');if(sImg&&sImg!=''&&sImg!='http://'){formatDoc('insertImage',sImg)}}});
+  on('[data-command="ImageUpload"]', 'click', function(){if(validateMode()){uploadAsset().then(function(asset) {if(asset) {formatDoc('insertImage',asset)}})}});
+  on('[data-command="Hyperlink"]', 'click', function(){if(validateMode()){var sLnk=prompt('Write the URL here','https:\/\/');if(sLnk&&sLnk!=''&&sLnk!='http://'){formatDoc('createlink',sLnk)}}}); 
+
+  on('#switchBox', 'change', function(){
+    setDocMode(this.checked);
+    if(this.checked) {
+      $('#richtextText').style.cssText = '';
+      $('#richtextText').style.height = 'inherit';
+      $('#richtextText').style.width = 'inherit';
+      $('#richtextText').style['border-style'] = 'none';
+      $('#richtextText').style['background-color'] = 'white';
+      $('#richtextText').style['background-image'] = 'none';
+    } else {
+      const widget = widgets.get(JSON.parse($('#editWidgetJSON').dataset.previousState).id);
+      $('#richtextText').style.cssText = widget.get('css');
+      $('#richtextText').style.height = $('#richtextHeight').value+"px";
+      $('#richtextText').style.width = $('#richtextWidth').value+"px";
+      if(borderStyle || widget.get('borderStyle'))
+        $('#richtextText').style['border-style'] = borderStyle ? borderStyle : widget.get('borderStyle');
+      if(backgroundColor || widget.get('backgroundColor'))
+        $('#richtextText').style['background-color'] = backgroundColor ? backgroundColor : widget.get('backgroundColor');
+      if(loadedAsset || widget.get('image'))
+        $('#richtextText').style['background-image'] = loadedAsset ? `url(${loadedAsset})` : `url(${widget.get('image')})`;
+    }});  
+  on('#richtextScale', 'change', function(){
+    if(this.checked) {
+      var cssText = document.getElementsByTagName('html')[0].style.cssText
+      var startPos = cssText.indexOf('--scale:') + 8;
+      var endPos = cssText.indexOf(';',startPos);
+      var roomScale = cssText.substring(startPos,endPos)
+      $('#richtextText').style.transform = `scale(${roomScale})`;
+    } else {
+      $('#richtextText').style.transform = 'scale(1.0)';
+    }});
+  //
+    
+  on('#labelWidthNumber', 'input', e=>$('#labelWidth').value=e.target.value);
+  on('#labelWidth', 'input', e=>$('#labelWidthNumber').value=e.target.value);
+  on('#labelHeightNumber', 'input', e=>$('#labelHeight').value=e.target.value);
+  on('#labelHeight', 'input', e=>$('#labelHeightNumber').value=e.target.value);
+  
+  on('#richtextWidthNumber', 'input', e=>$('#richtextWidth').value=e.target.value);
+  on('#richtextWidth', 'input', e=>$('#richtextWidthNumber').value=e.target.value);
+  on('#richtextHeightNumber', 'input', e=>$('#richtextHeight').value=e.target.value);
+  on('#richtextHeight', 'input', e=>$('#richtextHeightNumber').value=e.target.value);
+  on('#richtextPaddingNumber', 'input', e=>$('#richtextPadding').value=e.target.value);
+  on('#richtextPadding', 'input', e=>$('#richtextPaddingNumber').value=e.target.value);
+  on('#richtextBorderWidthNumber', 'input', e=>$('#richtextBorderWidth').value=e.target.value);
+  on('#richtextBorderWidth', 'input', e=>$('#richtextBorderWidthNumber').value=e.target.value);
+
+  on('#basicWidthNumber', 'input', e=>$('#basicWidth').value=e.target.value);
+  on('#basicWidth', 'input', e=>$('#basicWidthNumber').value=e.target.value);
+  on('#basicHeightNumber', 'input', e=>$('#basicHeight').value=e.target.value);
+  on('#basicHeight', 'input', e=>$('#basicHeightNumber').value=e.target.value);
 
   on('#uploadButtonImage', 'click', _=>uploadAsset().then(function(asset) {
     if(asset)
