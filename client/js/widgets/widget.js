@@ -399,7 +399,7 @@ export class Widget extends StateManaged {
   }
 
   cssProperties() {
-    return [ 'css', 'height', 'inheritChildZ', 'layer', 'width' ];
+    return [ 'borderRadius', 'css', 'height', 'inheritChildZ', 'layer', 'width' ];
   }
 
   cssTransform() {
@@ -676,7 +676,7 @@ export class Widget extends StateManaged {
                   returnCollection = `(${result.collection.length} widgets)`;
                 jeLoggingRoutineOperationSummary(
                   `${a.routine} ${theWidget} and return variable '${a.variable}' and collection '${a.collection}'`,
-                  `${JSON.stringify(variables[a.variable])}; ${JSON.stringify(result.collection)}`)
+                  `${JSON.stringify(variables[a.variable])}; ${returnCollection}`)
               } else {
                 jeLoggingRoutineOperationSummary( `${a.routine} ${theWidget} and abort caller processing`)
               }
@@ -1542,6 +1542,10 @@ export class Widget extends StateManaged {
             if(audioElement.parentNode)
               audioElement.parentNode.removeChild(audioElement);
           };
+          audioElement.onerror = function() {
+            if(audioElement.parentNode)
+              audioElement.parentNode.removeChild(audioElement);
+          }
         }
       }
       setInterval(function(){
