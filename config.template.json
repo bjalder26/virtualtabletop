@@ -1,7 +1,7 @@
 {
   "serverName": "VirtualTabletop.io",
   "port": 8272,
-  "externalURL": "http://localhost:8272",
+  "externalURL": "http://77.37.62.131:8272",
   "urlPrefix": "",
   "minifyJavascript": false,
   "forceTracing": false,
