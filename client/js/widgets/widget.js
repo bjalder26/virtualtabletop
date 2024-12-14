@@ -177,7 +177,8 @@ export class Widget extends StateManaged {
     let fromTransform = null;
     let newParent = undefined;
     if(delta.parent !== undefined) {
-      newParent = delta.parent ? widgets.get(delta.parent).domElement : $('#topSurface');
+      newParent = delta.parent && widgets.has(delta.parent) ? widgets.get(delta.parent).domElement : $('#topSurface');
+      this.setLimbo(delta.parent && !widgets.has(delta.parent));
       // If the widget wasn't newly created, transition from its previous location.
       if (delta.id === undefined)
         fromTransform = getElementTransformRelativeTo(this.domElement, newParent);
@@ -206,7 +207,7 @@ export class Widget extends StateManaged {
         this.domElement.style.transform = this.targetTransform;
       }
 
-      if(delta.parent !== null) {
+      if(delta.parent !== null && widgets.has(delta.parent)) {
         this.parent = widgets.get(delta.parent);
         this.parent.applyChildAdd(this);
       } else {
@@ -415,6 +416,8 @@ export class Widget extends StateManaged {
       if(!widgetFilter(w=>asArray(linkedToSeat).indexOf(w.get('id')) != -1 && w.get('player')).length)
         className += ' foreign';
 
+    if(this.isLimbo)
+      className += ' limbo';
     if(this.get('hoverParent') && widgets.has(this.get('hoverParent')) && widgets.get(this.get('hoverParent')).domElement.classList.contains('showCardBack'))
       className += ' showCardBack';
 
@@ -462,7 +465,8 @@ export class Widget extends StateManaged {
         audioSource: this.get('clickSound'),
         maxVolume: 1.0,
         length: null,
-        players: []
+        players: [],
+        count: 1
       });
     }
 
@@ -997,13 +1001,15 @@ export class Widget extends StateManaged {
       }
 
       if(a.func == 'AUDIO') {
-        setDefaults(a, { source: '', maxVolume: 1.0, length: null, player: null });
+        setDefaults(a, { source: '', maxVolume: 1.0, length: null, player: null, silence: false, count: 1 });
         const validPlayers = a.player ? asArray(a.player) : [];
         toServer('audio', {
           audioSource: a.source,
           maxVolume: a.maxVolume,
           length: a.length,
-          players: validPlayers
+          players: validPlayers,
+          silence: a.silence,
+          count: a.count
         });
       }
 
@@ -2467,6 +2473,18 @@ export class Widget extends StateManaged {
         this.domElement.classList.add('selectedInEdit');
       else
         this.domElement.classList.remove('selectedInEdit');
+    }
+  }
+
+  setLimbo(isLimbo) {
+    if(this.isLimbo == isLimbo)
+      return;
+    this.domElement.classList.toggle('limbo', isLimbo);
+    this.isLimbo = isLimbo;
+    if(isLimbo) {
+      const topTransform = getElementTransformRelativeTo(this.domElement, $('#topSurface')) || 'none';
+      $('#topSurface').appendChild(this.domElement);
+      this.domElement.style.transform = topTransform;
     }
   }
 
